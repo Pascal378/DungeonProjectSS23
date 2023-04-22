@@ -60,7 +60,7 @@ public class Hero extends Entity implements IOnDeathFunction {
                         new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
     }
 
-    /** Modifies the curret health by passed amount **/
+    /** Modifies the current health by passed amount **/
     public void setHealth(int amount){
         System.out.println("HP before: " + this.hp.getCurrentHealthpoints());
         this.hp.setCurrentHealthpoints(this.hp.getCurrentHealthpoints()+amount);

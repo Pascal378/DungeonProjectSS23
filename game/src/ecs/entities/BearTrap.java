@@ -36,7 +36,7 @@ public class BearTrap extends Trap{
     void triggerAction(Entity other) {
         this.inRange.add(other);
         if(!this.isTriggered()) doDmg(other);
-        this.setTriggered(true);
+        if(other.getComponent(HealthComponent.class).isPresent()) this.setTriggered(true);
     }
     public void doDmg(Entity other){
             if(other.getComponent(HealthComponent.class).isPresent()){

@@ -32,7 +32,7 @@ public class Mine extends Trap{
     void triggerAction(Entity other) {
         this.inRange.add(other);
         if(!this.isTriggered()) doDmg();
-        this.setTriggered(true);
+        if(other.getComponent(HealthComponent.class).isPresent()) this.setTriggered(true);
     }
 
     /** Deletes entitie from inRange list**/
