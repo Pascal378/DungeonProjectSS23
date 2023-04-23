@@ -10,7 +10,7 @@ import ecs.graphic.Animation;
 import java.util.ArrayList;
 
 public class BearTrap extends Trap{
-    private final String idle = "character/monster/imp";
+    private final String idle = "character/monster/beartrap";
 
     ArrayList<Entity> inRange = new ArrayList<>();
 
