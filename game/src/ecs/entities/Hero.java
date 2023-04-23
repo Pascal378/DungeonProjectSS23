@@ -6,7 +6,7 @@ import ecs.components.AnimationComponent;
 import ecs.components.PositionComponent;
 import ecs.components.VelocityComponent;
 import ecs.components.skill.*;
-import graphic.Animation;
+import ecs.graphic.Animation;
 
 /**
  * The Hero is the player character. It's entity in the ECS. This class helps to setup the hero with

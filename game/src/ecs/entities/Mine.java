@@ -2,10 +2,9 @@ package ecs.entities;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.*;
-import graphic.Animation;
+import ecs.graphic.Animation;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * An ap-mine that deals damage to all entities within it's hitbox that have a healthcomponent
@@ -21,6 +20,7 @@ public class Mine extends Trap{
         new PositionComponent(this);
         setupAnimationComponent();
         setupHitboxComponent();
+        this.setTrapDmg(1);
     }
 
 

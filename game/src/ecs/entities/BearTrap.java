@@ -5,7 +5,7 @@ import ecs.components.AnimationComponent;
 import ecs.components.HealthComponent;
 import ecs.components.HitboxComponent;
 import ecs.components.PositionComponent;
-import graphic.Animation;
+import ecs.graphic.Animation;
 
 import java.util.ArrayList;
 
