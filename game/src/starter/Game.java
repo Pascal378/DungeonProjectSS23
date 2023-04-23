@@ -144,7 +144,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new BearTrap();
     }
 
-    /**Spawn ghost, there is a 10% chance it doesnt spawn**/
+    /**Spawn ghost, there is a 10% chance it doesn't spawn**/
     private void loadGhost(){
         Random random = new Random();
         if(random.nextInt(0,100)>10) friendlyGhost = new FriendlyGhost(playHero);
