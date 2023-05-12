@@ -63,7 +63,7 @@ public class HealthComponent extends Component {
     public HealthComponent(@DSLContextMember(name = "entity") Entity entity) {
         this(
                 entity,
-                1,
+                5,
                 entity2 -> {},
                 new Animation(missingTexture, 100),
                 new Animation(missingTexture, 100));

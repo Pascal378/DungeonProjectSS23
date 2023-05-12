@@ -15,6 +15,12 @@ import controller.SystemController;
 import ecs.components.InventoryComponent;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
+import ecs.components.ai.AIComponent;
+import ecs.components.ai.fight.CollideAI;
+import ecs.components.ai.idle.PatrouilleWalk;
+import ecs.components.ai.idle.RadiusWalk;
+import ecs.components.ai.transition.ProtectOnApproach;
+import ecs.components.ai.transition.ProtectOnAttack;
 import ecs.entities.*;
 import ecs.entities.Entity;
 import ecs.entities.FriendlyGhost;
@@ -163,7 +169,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
         loadGhost();
-        spawnMonster();
+        //spawnMonster();
+
         spawnItems();
         new Mine();
         new BearTrap();
@@ -172,6 +179,16 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         System.out.println("Current Level:" + currentLvl);
 
         // Test
+        printXp();
+
+        //Slime victim = new Slime(1);
+        //Imp imp = new Imp(1);
+        //imp.addComponent(new AIComponent(imp,new CollideAI(2),new RadiusWalk(2f,2),new ProtectOnAttack(2f,victim)));
+        //AIComponent protecter = (AIComponent) imp.getComponent(AISystem.class).get();
+        //protecter.setTransitionAI();
+    }
+
+    private static void printXp() {
         Hero hero1 = (Hero) Game.hero;
         hero1.getXpCmp().addXP(hero1.getXpCmp().getXPToNextLevel());
         System.out.println(
