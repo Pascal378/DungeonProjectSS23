@@ -1,8 +1,5 @@
 package starter;
 
-import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
-import static logging.LoggerConfig.initBaseLogger;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -15,10 +12,14 @@ import controller.SystemController;
 import ecs.components.InventoryComponent;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
-import ecs.entities.*;
+import ecs.entities.Entity;
+import ecs.entities.Friendly.FriendlyGhost;
+import ecs.entities.Friendly.Hero;
 import ecs.entities.Monsters.Demon;
 import ecs.entities.Monsters.Imp;
 import ecs.entities.Monsters.Slime;
+import ecs.entities.Traps.BearTrap;
+import ecs.entities.Traps.Mine;
 import ecs.graphic.DungeonCamera;
 import ecs.graphic.Painter;
 import ecs.graphic.hud.GameOverHUD;
@@ -31,9 +32,6 @@ import ecs.items.newItems.BookOfRa;
 import ecs.items.newItems.Greatsword;
 import ecs.items.newItems.InvinciblePotion;
 import ecs.systems.*;
-import java.io.IOException;
-import java.util.*;
-import java.util.logging.Logger;
 import level.IOnLevelLoader;
 import level.LevelAPI;
 import level.elements.ILevel;
@@ -45,7 +43,16 @@ import level.tools.LevelSize;
 import tools.Constants;
 import tools.Point;
 
-/** The heart of the framework. From here all strings are pulled. */
+import java.io.IOException;
+import java.util.*;
+import java.util.logging.Logger;
+
+import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
+import static logging.LoggerConfig.initBaseLogger;
+
+/**
+ * The heart of the framework. From here all strings are pulled.
+ */
 public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     private LevelSize levelSize = LevelSize.SMALL;
@@ -58,28 +65,42 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     private static Game game;
 
-    /** Contains all Controller of the Dungeon */
+    /**
+     * Contains all Controller of the Dungeon
+     */
     protected List<AbstractController<?>> controller;
 
     public static DungeonCamera camera;
-    /** Draws objects */
+    /**
+     * Draws objects
+     */
     protected Painter painter;
 
     protected LevelAPI levelAPI;
-    /** Generates the level */
+    /**
+     * Generates the level
+     */
     protected IGenerator generator;
 
     private boolean doSetup = true;
     private static boolean paused = false;
 
-    /** All entities that are currently active in the dungeon */
+    /**
+     * All entities that are currently active in the dungeon
+     */
     private static final Set<Entity> entities = new HashSet<>();
-    /** All entities to be removed from the dungeon in the next frame */
+    /**
+     * All entities to be removed from the dungeon in the next frame
+     */
     private static final Set<Entity> entitiesToRemove = new HashSet<>();
-    /** All entities to be added from the dungeon in the next frame */
+    /**
+     * All entities to be added from the dungeon in the next frame
+     */
     private static final Set<Entity> entitiesToAdd = new HashSet<>();
 
-    /** List of all Systems in the ECS */
+    /**
+     * List of all Systems in the ECS
+     */
     public static SystemController systems;
 
     public static ILevel currentLevel;
@@ -123,7 +144,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         camera.update();
     }
 
-    /** Called once at the beginning of the game. */
+    /**
+     * Called once at the beginning of the game.
+     */
     protected void setup() {
         doSetup = false;
         controller = new ArrayList<>();
@@ -150,13 +173,16 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         createSystems();
     }
 
-    /** Called at the beginning of each frame. Before the controllers call <code>update</code>. */
+    /**
+     * Called at the beginning of each frame. Before the controllers call <code>update</code>.
+     */
     protected void frame() {
         setCameraFocus();
         manageEntitiesSets();
         getHero().ifPresent(this::loadNextLevelIfEntityIsOnEndTile);
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
-        if (Hero.isDead()) {}
+        if (Hero.isDead()) {
+        }
         ;
     }
 
@@ -179,7 +205,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         gameLogger.info("Current Level: " + currentLvl);
     }
 
-    /** Spawn ghost, there is a 10% chance it doesn't spawn */
+    /**
+     * Spawn ghost, there is a 10% chance it doesn't spawn
+     */
     private void loadGhost() {
         Random random = new Random();
         if (random.nextInt(0, 100) > 10) friendlyGhost = new FriendlyGhost(playHero);
@@ -190,7 +218,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         if (currentLvl >= 10) levelSize = LevelSize.LARGE;
     }
 
-    /** Chance of Randomly spawn a Item */
+    /**
+     * Chance of Randomly spawn a Item
+     */
     private void spawnItems() {
         int random = (int) (Math.random() * (100));
         if (random >= 0 && random <= 25) {
@@ -208,7 +238,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
-    /** Spawns monster in relation to current level progress */
+    /**
+     * Spawns monster in relation to current level progress
+     */
     private void spawnMonster() {
         Random random = new Random();
 
@@ -265,14 +297,14 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private void setCameraFocus() {
         if (getHero().isPresent()) {
             PositionComponent pc =
-                    (PositionComponent)
-                            getHero()
-                                    .get()
-                                    .getComponent(PositionComponent.class)
-                                    .orElseThrow(
-                                            () ->
-                                                    new MissingComponentException(
-                                                            "PositionComponent"));
+                (PositionComponent)
+                    getHero()
+                        .get()
+                        .getComponent(PositionComponent.class)
+                        .orElseThrow(
+                            () ->
+                                new MissingComponentException(
+                                    "PositionComponent"));
             camera.setFocusPoint(pc.getPosition());
 
         } else camera.setFocusPoint(new Point(0, 0));
@@ -287,10 +319,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     private boolean isOnEndTile(Entity entity) {
         PositionComponent pc =
-                (PositionComponent)
-                        entity.getComponent(PositionComponent.class)
-                                .orElseThrow(
-                                        () -> new MissingComponentException("PositionComponent"));
+            (PositionComponent)
+                entity.getComponent(PositionComponent.class)
+                    .orElseThrow(
+                        () -> new MissingComponentException("PositionComponent"));
         Tile currentTile = currentLevel.getTileAt(pc.getPosition().toCoordinate());
         return currentTile.equals(currentLevel.getEndTile());
     }
@@ -298,14 +330,16 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private void placeOnLevelStart(Entity hero) {
         entities.add(hero);
         PositionComponent pc =
-                (PositionComponent)
-                        hero.getComponent(PositionComponent.class)
-                                .orElseThrow(
-                                        () -> new MissingComponentException("PositionComponent"));
+            (PositionComponent)
+                hero.getComponent(PositionComponent.class)
+                    .orElseThrow(
+                        () -> new MissingComponentException("PositionComponent"));
         pc.setPosition(currentLevel.getStartTile().getCoordinate().toPoint());
     }
 
-    /** Toggle between pause and run */
+    /**
+     * Toggle between pause and run
+     */
     public static void togglePause() {
         paused = !paused;
         if (systems != null) {
@@ -317,7 +351,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
-    /** Open Inventory */
+    /**
+     * Open Inventory
+     */
     public static void openInventory() {
         inventoryOpen = !inventoryOpen;
         if (inventoryHUD != null) {

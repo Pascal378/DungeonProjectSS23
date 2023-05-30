@@ -1,4 +1,4 @@
-package ecs.entities;
+package ecs.entities.Friendly;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.AnimationComponent;
@@ -9,6 +9,7 @@ import ecs.components.ai.AIComponent;
 import ecs.components.ai.fight.CollideAI;
 import ecs.components.ai.idle.RadiusWalk;
 import ecs.components.ai.transition.FriendlyTransition;
+import ecs.entities.Entity;
 import ecs.graphic.Animation;
 import java.util.Random;
 import java.util.logging.Logger;

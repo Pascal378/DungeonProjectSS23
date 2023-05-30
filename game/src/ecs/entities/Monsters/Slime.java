@@ -9,10 +9,11 @@ import ecs.components.ai.transition.FriendlyTransition;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
-import ecs.entities.Monster;
 import ecs.graphic.Animation;
 
-/** The Slime is an enemy monster which inherits from the Monster class. */
+/**
+ * The Slime is an enemy monster which inherits from the Monster class.
+ */
 public class Slime extends Monster {
 
     private final String pathToIdleLeft = "character/monster/slime/idleLeft";

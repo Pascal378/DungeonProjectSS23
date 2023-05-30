@@ -1,10 +1,12 @@
-package ecs.entities;
+package ecs.entities.Friendly;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.AnimationComponent;
 import ecs.components.HitboxComponent;
 import ecs.components.PositionComponent;
+import ecs.entities.Entity;
 import ecs.graphic.Animation;
+
 import java.util.logging.Logger;
 
 /**
@@ -43,12 +45,14 @@ public class Grave extends Entity {
 
     private void setupHitboxComponent() {
         new HitboxComponent(
-                this,
-                (you, other, direction) -> setfound(other),
-                (you, other, direction) -> graveLogger.info("graveCollisionLeave"));
+            this,
+            (you, other, direction) -> setfound(other),
+            (you, other, direction) -> graveLogger.info("graveCollisionLeave"));
     }
 
-    /** If hero with a following ghost collides wit grave the hero gets rewarded by the ghost* */
+    /**
+     * If hero with a following ghost collides wit grave the hero gets rewarded by the ghost*
+     */
     public void setfound(Entity other) {
         if (other instanceof Hero && !found) {
             ghost.reward();

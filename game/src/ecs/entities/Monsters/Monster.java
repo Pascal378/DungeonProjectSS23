@@ -1,6 +1,8 @@
-package ecs.entities;
+package ecs.entities.Monsters;
 
-import ecs.components.*;
+import ecs.components.PositionComponent;
+import ecs.entities.Entity;
+import ecs.entities.Friendly.Hero;
 
 /**
  * The monster is an entity. It is defined as an abstract class because we never have a Monster
@@ -10,7 +12,9 @@ public class Monster extends Entity {
 
     private Hero hero;
 
-    /** Entity with Components */
+    /**
+     * Entity with Components
+     */
     public Monster() {
         super();
 
