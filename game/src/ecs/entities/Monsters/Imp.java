@@ -11,9 +11,7 @@ import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import ecs.graphic.Animation;
 
-/**
- * The Imp is an enemy monster which inherits from the Monster class.
- */
+/** The Imp is an enemy monster which inherits from the Monster class. */
 public class Imp extends Monster {
 
     private final String pathToIdleLeft = "character/monster/imp/idleLeft";

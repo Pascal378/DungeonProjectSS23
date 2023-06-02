@@ -2,9 +2,7 @@ package ecs.entities.Traps;
 
 import ecs.entities.Entity;
 
-/**
- * Trap Class as a scheme for traps
- */
+/** Trap Class as a scheme for traps */
 public abstract class Trap extends Entity {
     private boolean triggered;
 
@@ -15,8 +13,7 @@ public abstract class Trap extends Entity {
         this.trapDmg = trapDmg;
     }
 
-    public Trap() {
-    }
+    public Trap() {}
 
     public Trap(boolean triggered, boolean repeatable, int trapDmg) {
         this.triggered = triggered;

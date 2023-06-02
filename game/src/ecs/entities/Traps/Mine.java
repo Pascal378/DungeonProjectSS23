@@ -9,12 +9,9 @@ import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import ecs.graphic.Animation;
-
 import java.util.ArrayList;
 
-/**
- * An ap-mine that deals damage to all entities within it's hitbox that have a healthcomponent
- */
+/** An ap-mine that deals damage to all entities within it's hitbox that have a healthcomponent */
 public class Mine extends Trap {
 
     private final String idle = "character/monster/apmine";
@@ -38,9 +35,7 @@ public class Mine extends Trap {
         if (other.getComponent(HealthComponent.class).isPresent()) this.setTriggered(true);
     }
 
-    /**
-     * Deletes entitie from inRange list*
-     */
+    /** Deletes entitie from inRange list* */
     public void deleteFromHitbox(Entity other) {
         this.inRange.remove(other);
     }
@@ -65,8 +60,8 @@ public class Mine extends Trap {
 
     private void setupHitboxComponent() {
         new HitboxComponent(
-            this,
-            (you, other, direction) -> triggerAction(other),
-            (you, other, direction) -> deleteFromHitbox(other));
+                this,
+                (you, other, direction) -> triggerAction(other),
+                (you, other, direction) -> deleteFromHitbox(other));
     }
 }

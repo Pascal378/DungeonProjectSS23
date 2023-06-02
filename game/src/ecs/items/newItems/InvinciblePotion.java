@@ -8,31 +8,26 @@ import ecs.items.IOnCollect;
 import ecs.items.ItemData;
 import ecs.items.ItemType;
 import ecs.items.WorldItemBuilder;
-import starter.Game;
-
 import java.util.Timer;
 import java.util.TimerTask;
+import starter.Game;
 
-/**
- * The invincible Potion is an item that makes the hero immortal onCollect.
- */
+/** The invincible Potion is an item that makes the hero immortal onCollect. */
 public class InvinciblePotion extends ItemData implements IOnCollect {
 
     public InvinciblePotion() {
         super(
-            ItemType.Active,
-            AnimationBuilder.buildAnimation("item/world/InvinciblePotion"),
-            AnimationBuilder.buildAnimation("item/world/InvinciblePotion"),
-            "Invincible Potion",
-            "A Potion which makes you immortal for 5 seconds");
+                ItemType.Active,
+                AnimationBuilder.buildAnimation("item/world/InvinciblePotion"),
+                AnimationBuilder.buildAnimation("item/world/InvinciblePotion"),
+                "Invincible Potion",
+                "A Potion which makes you immortal for 5 seconds");
 
         WorldItemBuilder.buildWorldItem(this);
         this.setOnCollect(this);
     }
 
-    /**
-     * Resets invincible to false
-     */
+    /** Resets invincible to false */
     public void resetInvincible(Entity e) {
         HealthComponent innerHCP = (HealthComponent) e.getComponent(HealthComponent.class).get();
         innerHCP.setInvincible(false);
@@ -64,13 +59,13 @@ public class InvinciblePotion extends ItemData implements IOnCollect {
                 // After 5 seconds, set invincible false
                 Timer timer = new Timer();
                 timer.schedule(
-                    new TimerTask() {
-                        @Override
-                        public void run() {
-                            resetInvincible(whoCollides);
-                        }
-                    },
-                    (long) 5 * 1000);
+                        new TimerTask() {
+                            @Override
+                            public void run() {
+                                resetInvincible(whoCollides);
+                            }
+                        },
+                        (long) 5 * 1000);
             }
         }
     }

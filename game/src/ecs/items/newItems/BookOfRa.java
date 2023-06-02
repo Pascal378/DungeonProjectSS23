@@ -9,24 +9,21 @@ import ecs.items.IOnCollect;
 import ecs.items.ItemData;
 import ecs.items.ItemType;
 import ecs.items.WorldItemBuilder;
+import java.util.Random;
 import starter.Game;
 
-import java.util.Random;
-
-/**
- * Book of Ra grants the hero 1-5% XP of the XP left to level up per book in inventory.
- */
+/** Book of Ra grants the hero 1-5% XP of the XP left to level up per book in inventory. */
 public class BookOfRa extends ItemData implements IOnCollect {
     InventoryComponent inv;
     Hero hero;
 
     public BookOfRa() {
         super(
-            ItemType.Passive,
-            AnimationBuilder.buildAnimation("item/world/BookOfRa"),
-            AnimationBuilder.buildAnimation("item/world/BookOfRa"),
-            "Book of Ra",
-            "Gives the owner a bonus EP of 1-5% every time he enters a new level");
+                ItemType.Passive,
+                AnimationBuilder.buildAnimation("item/world/BookOfRa"),
+                AnimationBuilder.buildAnimation("item/world/BookOfRa"),
+                "Book of Ra",
+                "Gives the owner a bonus EP of 1-5% every time he enters a new level");
 
         hero = null;
         if (Game.getHero().isPresent()) {
@@ -70,9 +67,7 @@ public class BookOfRa extends ItemData implements IOnCollect {
         }
     }
 
-    /**
-     * Rewarding function that grants the hero xp. Is called in onLevelLoad()
-     */
+    /** Rewarding function that grants the hero xp. Is called in onLevelLoad() */
     public void grantXP() {
         XPComponent xp = null;
 
