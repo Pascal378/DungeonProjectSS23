@@ -63,7 +63,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         setupHealthComponent();
         setupXpComponent();
         pc.setSkillSlot1(firstSkill);
-        this.hp.setCurrentHealthpoints(2); // Set to 2 for testing Game Over
+        this.hp.setCurrentHealthpoints(200); // Set to 2 for testing Game Over
         currentHealth = this.hp.getCurrentHealthpoints();
     }
 

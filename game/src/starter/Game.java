@@ -160,8 +160,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         manageEntitiesSets();
         getHero().ifPresent(this::loadNextLevelIfEntityIsOnEndTile);
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
-        if (Hero.isDead()) {}
-        ;
     }
 
     @Override
@@ -176,6 +174,11 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new BearTrap();
         currentLvl++;
         bookCheck();
+        new BookOfRa();
+        new BookOfRa();
+        new BookOfRa();
+        new BookOfRa();
+        new BookOfRa();
 
         // Test
         Hero hero1 = (Hero) Game.hero;
@@ -441,5 +444,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new XPSystem();
         new SkillSystem();
         new ProjectileSystem();
+        new QuestSystem();
     }
 }
