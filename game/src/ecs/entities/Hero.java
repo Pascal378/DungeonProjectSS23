@@ -9,6 +9,8 @@ import ecs.graphic.Animation;
 import java.util.logging.Logger;
 import starter.Game;
 
+import javax.swing.text.Position;
+
 /**
  * The Hero is the player character. It's entity in the ECS. This class helps to setup the hero with
  * all its components and attributes .
@@ -21,7 +23,6 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     private final int enrageCoolDown = 30;
     private final float xSpeed = 0.3f;
     private final float ySpeed = 0.3f;
-
     private int dmg = 10;
 
     private final String pathToIdleLeft = "knight/idleLeft";
@@ -29,7 +30,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     private final String pathToRunLeft = "knight/runLeft";
     private final String pathToRunRight = "knight/runRight";
     private final String onHit = "knight/hit";
-
+    private PositionComponent position;
     private SkillComponent sCp;
     private HealthComponent hp;
 
@@ -51,7 +52,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     /** Entity with Components */
     public Hero() {
         super();
-        new PositionComponent(this);
+        this.position = new PositionComponent(this);
         inv = new InventoryComponent(this, 12);
         setupVelocityComponent();
         setupSkillComponent();
@@ -62,7 +63,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         setupHealthComponent();
         setupXpComponent();
         pc.setSkillSlot1(firstSkill);
-        this.hp.setCurrentHealthpoints(2); // Set to 2 for testing Game Over
+        this.hp.setCurrentHealthpoints(100); // Set to 2 for testing Game Over
         currentHealth = this.hp.getCurrentHealthpoints();
     }
 
@@ -185,5 +186,13 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
 
     public static void setDead(boolean dead) {
         Hero.dead = dead;
+    }
+
+    public PositionComponent getPosition() {
+        return position;
+    }
+
+    public void setPosition(PositionComponent position) {
+        this.position = position;
     }
 }
