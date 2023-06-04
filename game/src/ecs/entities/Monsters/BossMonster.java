@@ -11,7 +11,6 @@ import ecs.entities.Entity;
 import ecs.entities.Hero;
 import ecs.entities.Monster;
 import ecs.graphic.Animation;
-
 import java.util.logging.Logger;
 
 public class BossMonster extends Monster {
@@ -43,7 +42,6 @@ public class BossMonster extends Monster {
      * @param hero - when initialized it needs to get passed the hero, so that it knows who to
      *     reward if a grave is found
      */
-
     public BossMonster(Hero hero) {
         super();
         setupVelocityComponent();
@@ -133,5 +131,4 @@ public class BossMonster extends Monster {
     public void setPosition(PositionComponent position) {
         this.position = position;
     }
-
 }

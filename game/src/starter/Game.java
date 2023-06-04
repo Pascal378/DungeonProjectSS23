@@ -165,7 +165,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
         loadGhost();
-        // spawnMonster(); set off, is called in spawnBoss
         spawnBoss();
         spawnItems();
         new Mine();
@@ -228,7 +227,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     }
 
     private void spawnBoss() {
-        if (currentLvl == 10) {
+        if (currentLvl == 2) {
             new BossMonster(playHero);
             gameLogger.info("Boss Monster spawnt");
         } else {

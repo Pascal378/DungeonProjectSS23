@@ -15,7 +15,7 @@ import starter.Game;
  */
 public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
 
-    private final int fireballCoolDown = 1;
+    private final int fireballCoolDown = 0;
     private final int healSkillCoolDown = 1;
 
     private final int enrageCoolDown = 30;
@@ -189,8 +189,6 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     public PositionComponent getPosition() {
         return position;
     }
-
-
 
     public void setPosition(PositionComponent position) {
         this.position = position;
