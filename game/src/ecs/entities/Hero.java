@@ -9,8 +9,6 @@ import ecs.graphic.Animation;
 import java.util.logging.Logger;
 import starter.Game;
 
-import javax.swing.text.Position;
-
 /**
  * The Hero is the player character. It's entity in the ECS. This class helps to setup the hero with
  * all its components and attributes .
@@ -191,6 +189,8 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     public PositionComponent getPosition() {
         return position;
     }
+
+
 
     public void setPosition(PositionComponent position) {
         this.position = position;

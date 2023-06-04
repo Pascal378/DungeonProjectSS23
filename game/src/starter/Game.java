@@ -34,7 +34,6 @@ import ecs.items.newItems.InvinciblePotion;
 import ecs.systems.*;
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import level.IOnLevelLoader;
 import level.LevelAPI;
@@ -158,7 +157,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         manageEntitiesSets();
         getHero().ifPresent(this::loadNextLevelIfEntityIsOnEndTile);
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
-        if (Hero.isDead()) {}
     }
 
     @Override
@@ -167,7 +165,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
         loadGhost();
-        //spawnMonster(); set off, is called in spawnBoss
+        // spawnMonster(); set off, is called in spawnBoss
         spawnBoss();
         spawnItems();
         new Mine();
@@ -229,14 +227,11 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         gameLogger.info("Amount of monsters spawned in this level: " + monster);
     }
 
-    private void spawnBoss(){
-        boolean spawn = true;
-        if(spawn){
-            new BossMonster(playHero,hero);
+    private void spawnBoss() {
+        if (currentLvl == 10) {
+            new BossMonster(playHero);
             gameLogger.info("Boss Monster spawnt");
-        }
-
-        else {
+        } else {
             spawnMonster();
         }
     }

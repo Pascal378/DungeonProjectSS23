@@ -5,7 +5,6 @@ import ecs.components.VelocityComponent;
 import ecs.entities.Entity;
 import ecs.entities.Hero;
 import ecs.entities.Monsters.BossMonster;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -47,22 +46,22 @@ public class EnrageSkill extends MagicSkill {
             ogY = vCp.getYVelocity();
             vCp.setXVelocity(vCp.getXVelocity() * 2.25f);
             vCp.setYVelocity(vCp.getYVelocity() * 2.25f);
-            if(hero != null){
+            if (hero != null) {
                 ogDmg = hero.getDmg();
                 hero.setDmg(hero.getDmg() * 2);
                 System.out.println("Damage and velocity increased by 25% over 10 seconds.");
-                durationTimer(vCp, ogX, ogY, hero, ogDmg);}
-            if (bossMonster != null){
+                durationTimer(vCp, ogX, ogY, hero, ogDmg);
+            }
+            if (bossMonster != null) {
                 ogDmg = bossMonster.getDmg();
                 bossMonster.setDmg(bossMonster.getDmg() * 2);
                 System.out.println("Damage and velocity increased by 25% over 10 seconds.");
-                durationTimer(vCp, ogX, ogY, bossMonster, ogDmg);}
+                durationTimer(vCp, ogX, ogY, bossMonster, ogDmg);
             }
         }
+    }
 
-        // Check if Entity is Hero and then set is dmg
-
-
+    // Check if Entity is Hero and then set is dmg
 
     /**
      * Timer that sets every modified stat back to its original when run out.
@@ -87,17 +86,18 @@ public class EnrageSkill extends MagicSkill {
                 (long) skillDuration * 1000);
     }
 
-    public void durationTimer(VelocityComponent vCp, float ogX, float ogY,BossMonster bossMonster , int ogDmg) {
+    public void durationTimer(
+            VelocityComponent vCp, float ogX, float ogY, BossMonster bossMonster, int ogDmg) {
         Timer timer = new Timer();
         timer.schedule(
-            new TimerTask() {
-                public void run() {
-                    bossMonster.setDmg(ogDmg);
-                    vCp.setXVelocity(ogX);
-                    vCp.setYVelocity(ogY);
-                    System.out.println("Enrage effect ended.");
-                }
-            },
-            (long) skillDuration * 1000);
+                new TimerTask() {
+                    public void run() {
+                        bossMonster.setDmg(ogDmg);
+                        vCp.setXVelocity(ogX);
+                        vCp.setYVelocity(ogY);
+                        System.out.println("Enrage effect ended.");
+                    }
+                },
+                (long) skillDuration * 1000);
     }
 }
