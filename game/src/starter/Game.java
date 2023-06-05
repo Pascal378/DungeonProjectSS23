@@ -31,6 +31,7 @@ import ecs.items.newItems.BookOfRa;
 import ecs.items.newItems.Greatsword;
 import ecs.items.newItems.InvinciblePotion;
 import ecs.systems.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
@@ -68,6 +69,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     protected LevelAPI levelAPI;
     /** Generates the level */
     protected IGenerator generator;
+
     private boolean doSetup = true;
     private static boolean paused = false;
 
@@ -89,8 +91,11 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static Entity hero;
     private static Hero playHero;
     private Logger gameLogger;
-    private static int currentLvl;
+    private static int currentLvl = 0;
     private FriendlyGhost friendlyGhost;
+
+    private SaveGame saveGame;
+    private boolean onceLoaded = false;
 
     public static void main(String[] args) {
         // start the game
@@ -121,7 +126,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
     /** Called once at the beginning of the game. */
     protected void setup() {
-        readFromFile();
+        playHero = new Hero();
+        hero = playHero;
+        this.saveGame = new SaveGame();
         doSetup = false;
         controller = new ArrayList<>();
         setupCameras();
@@ -138,10 +145,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(pauseMenu);
         gameOverHUD = new GameOverHUD<>();
         controller.add(gameOverHUD);
-        playHero = new Hero();
-        hero = playHero;
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(levelSize);
+
         createSystems();
     }
 
@@ -151,26 +157,38 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         manageEntitiesSets();
         getHero().ifPresent(this::loadNextLevelIfEntityIsOnEndTile);
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
-        if (Hero.isDead()) {}
-        ;
+    }
+
+    public boolean checkSave() {
+        if (new File("SaveFile.ser").exists() && currentLvl == 0) {
+            entities.clear();
+            saveGame.readSave();
+            onceLoaded = true;
+            return true;
+        }
+        return false;
     }
 
     @Override
     public void onLevelLoad() {
-        Hero hero1 = (Hero) Game.hero;
-        writeInFile(hero1.getCurrentHealth());
         currentLevel = levelAPI.getCurrentLevel();
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
         loadGhost();
-        spawnMonster();
+        if (!checkSave()) {
+            spawnMonster();
+            new Mine();
+            new BearTrap();
+        }
+
         spawnItems();
-        new Mine();
-        new BearTrap();
+
         currentLvl++;
         bookCheck();
+        Hero hero1 = (Hero) Game.hero;
         hero1.getXpCmp().addXP(hero1.getXpCmp().getXPToNextLevel());
         gameLogger.info("Current Level: " + currentLvl);
+        saveGame.writeSave();
     }
 
     /** Spawn ghost, there is a 10% chance it doesn't spawn */
@@ -200,24 +218,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
             new Bag(ItemType.Active);
             new InvinciblePotion();
         }
-    }
-
-    /**
-     * The Information will be loaded from the File.
-     */
-    public static void readFromFile(){
-        if (currentLvl != 1){
-        SerializableGame serializableGame1 = SerializableGame.readObject("serialGame");
-        currentLvl = serializableGame1.getCurrentlevel();
-     }
-    }
-    /**
-     * The File will get new information
-     * @param healthPoints value will be saved in healthpoints Attribute.
-     */
-    public static void writeInFile(int healthPoints){
-       SerializableGame serializableGame = new SerializableGame(healthPoints,currentLvl);
-       SerializableGame.writeObject(serializableGame,"serialGame");
     }
 
     /** Spawns monster in relation to current level progress */
@@ -355,7 +355,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
      */
     public static void restartGame() {
         currentLvl = 0;
-        writeInFile(2);
         game.setup();
     }
 
@@ -430,6 +429,14 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
         // See also:
         // https://stackoverflow.com/questions/52011592/libgdx-set-ortho-camera
+    }
+
+    public static int getCurrentLvl() {
+        return currentLvl;
+    }
+
+    public static void setCurrentLvl(int lvl) {
+        currentLvl = lvl;
     }
 
     private void createSystems() {

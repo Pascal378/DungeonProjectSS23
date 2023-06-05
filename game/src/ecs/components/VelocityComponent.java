@@ -21,7 +21,7 @@ public class VelocityComponent extends Component {
 
     private @DSLTypeMember(name = "move_right_animation") Animation moveRightAnimation;
     private @DSLTypeMember(name = "move_left_animation") Animation moveLeftAnimation;
-    private final Logger velocityCompLogger = Logger.getLogger(this.getClass().getName());
+    private final transient Logger velocityCompLogger = Logger.getLogger(this.getClass().getName());
 
     /**
      * @param entity associated entity
@@ -120,6 +120,7 @@ public class VelocityComponent extends Component {
                         + yVelocity);
         return yVelocity;
     }
+
     /**
      * Set speed with which the entity moves on the y-axis
      *

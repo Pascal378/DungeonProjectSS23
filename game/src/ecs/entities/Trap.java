@@ -19,6 +19,12 @@ public abstract class Trap extends Entity {
         this.trapDmg = trapDmg;
     }
 
+    public void setup() {
+        this.triggered = triggered;
+        this.repeatable = repeatable;
+        this.trapDmg = trapDmg;
+    }
+
     public void setTrapDmg(int trapDmg) {
         this.trapDmg = trapDmg;
     }

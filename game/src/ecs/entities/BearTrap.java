@@ -17,6 +17,9 @@ public class BearTrap extends Trap {
 
     public BearTrap() {
         super(false, false, 2);
+    }
+
+    public void setup() {
         new PositionComponent(this);
         setupAnimationComponent();
         setupHitboxComponent();

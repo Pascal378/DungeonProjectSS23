@@ -32,7 +32,7 @@ public class FriendlyGhost extends Entity {
 
     private Hero hero;
 
-    Logger ghostLogger = Logger.getLogger(getClass().getName());
+    private transient Logger ghostLogger = Logger.getLogger(getClass().getName());
     private final String pathToIdleLeft = "monster/ghost/idelLeft";
     private final String pathToIdleRight = "monster/ghost/idelRight";
     private final String pathToRunLeft = "monster/ghost/runLeft";
@@ -46,6 +46,18 @@ public class FriendlyGhost extends Entity {
      */
     public FriendlyGhost(Hero hero) {
         super();
+        new PositionComponent(this);
+        setupVelocityComponent();
+        setupAnimationComponent();
+        setupHitboxComponent();
+        setupAi();
+        this.hero = hero;
+
+        // 80% chance of spawning a grave
+        if (new Random().nextInt(0, 100) > 20) spawnGrave();
+    }
+
+    public void setup() {
         new PositionComponent(this);
         setupVelocityComponent();
         setupAnimationComponent();
