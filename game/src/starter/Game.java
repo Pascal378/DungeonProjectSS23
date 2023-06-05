@@ -284,7 +284,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                                     .orElseThrow(
                                             () ->
                                                     new MissingComponentException(
-                                                            "PositionComponent"));
+                                                            "PositionComponent "));
             camera.setFocusPoint(pc.getPosition());
 
         } else camera.setFocusPoint(new Point(0, 0));

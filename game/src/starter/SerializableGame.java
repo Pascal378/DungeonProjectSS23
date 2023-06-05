@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 /**
  * The game state must always be saved in a file and when the game is started,
- * the information must then be taken from the file.
+ * the information must then be taken from the file .
  */
 public class SerializableGame implements Serializable {
     private final long serialVersion = 42L;
