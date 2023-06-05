@@ -25,6 +25,13 @@ public class Mine extends Trap {
         this.setTrapDmg(1);
     }
 
+    public void setup() {
+        new PositionComponent(this);
+        setupAnimationComponent();
+        setupHitboxComponent();
+        this.setTrapDmg(1);
+    }
+
     /**
      * If entities enters hitbox add it to the entites inRange list, then check if the trap was
      * already triggered and call doDmg if not Set triggered to true afterwards

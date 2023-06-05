@@ -18,11 +18,11 @@ import java.util.logging.Logger;
  */
 public class Grave extends Entity {
     private final String pathToIdleRight = "dungeon/gravestone";
-    private final FriendlyGhost ghost;
+    private FriendlyGhost ghost;
 
     public boolean found = false;
 
-    Logger graveLogger = Logger.getLogger(getClass().getName());
+    public transient Logger graveLogger = Logger.getLogger(getClass().getName());
 
     /**
      * Constructor
@@ -35,6 +35,12 @@ public class Grave extends Entity {
         setupAnimationComponent();
         setupHitboxComponent();
         this.ghost = ghost;
+    }
+
+    public void setup() {
+        new PositionComponent(this);
+        setupAnimationComponent();
+        setupHitboxComponent();
     }
 
     private void setupAnimationComponent() {
