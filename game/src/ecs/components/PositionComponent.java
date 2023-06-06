@@ -91,4 +91,8 @@ public class PositionComponent extends Component {
     public void setPosition(Point position) {
         this.position = position;
     }
+
+    public Point getPoint() {
+        return position;
+    }
 }

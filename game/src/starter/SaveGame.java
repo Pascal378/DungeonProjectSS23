@@ -2,6 +2,7 @@ package starter;
 
 import ecs.entities.Entity;
 import ecs.entities.Friendly.Hero;
+import ecs.entities.Monsters.BossMonster;
 import ecs.entities.Monsters.Demon;
 import ecs.entities.Monsters.Imp;
 import ecs.entities.Monsters.Slime;
@@ -103,6 +104,7 @@ public class SaveGame {
             if (entity instanceof Demon) new Demon(toRead.getLvl());
             if (entity instanceof Imp) new Imp(toRead.getLvl());
             if (entity instanceof Slime) new Slime(toRead.getLvl());
+            if (entity instanceof BossMonster) new BossMonster(hero);
             if (entity instanceof BearTrap) new BearTrap();
             if (entity instanceof Mine) new Mine();
         }

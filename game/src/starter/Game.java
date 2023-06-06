@@ -15,6 +15,7 @@ import ecs.components.PositionComponent;
 import ecs.entities.Entity;
 import ecs.entities.Friendly.FriendlyGhost;
 import ecs.entities.Friendly.Hero;
+import ecs.entities.Monsters.BossMonster;
 import ecs.entities.Monsters.Demon;
 import ecs.entities.Monsters.Imp;
 import ecs.entities.Monsters.Slime;
@@ -182,7 +183,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         manageEntitiesSets();
         getHero().ifPresent(this::loadNextLevelIfEntityIsOnEndTile);
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) togglePause();
-
     }
 
     public boolean checkSave() {
@@ -207,6 +207,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
             new BearTrap();
         }
 
+        spawnBoss();
         spawnItems();
 
         currentLvl++;
@@ -276,6 +277,15 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
             monster++;
         }
         gameLogger.info("Amount of monsters spawned in this level: " + monster);
+    }
+
+    private void spawnBoss() {
+        if (currentLvl == 2) {
+            new BossMonster(playHero);
+            gameLogger.info("Boss Monster spawnt");
+        } else {
+            spawnMonster();
+        }
     }
 
     public void bookCheck() {
