@@ -42,6 +42,17 @@ public class Imp extends Monster {
         this.maxHealthpoint = this.maxHealthpoint * lvlFactor;
     }
 
+    public Imp() {
+        super();
+        new PositionComponent(this);
+        new AIComponent(this, new CollideAI(4f), new heroLastPosition(5), new FriendlyTransition());
+        setupVelocityComponent();
+        setupAnimationComponent();
+        setupHitboxComponent();
+        this.dmg = this.dmg;
+        this.maxHealthpoint = this.maxHealthpoint;
+    }
+
     private void setupVelocityComponent() {
         Animation moveRight = AnimationBuilder.buildAnimation(pathToRunRight);
         Animation moveLeft = AnimationBuilder.buildAnimation(pathToRunLeft);
