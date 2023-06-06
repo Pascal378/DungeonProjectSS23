@@ -7,9 +7,12 @@ import ecs.entities.Hero;
 import ecs.entities.Monsters.BossMonster;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 public class EnrageSkill extends MagicSkill {
     int skillDuration = 5;
+
+    Logger BossLogger = Logger.getLogger(getClass().getName());
 
     /**
      * This skill boosts the damage and speed of the executing entity in cost of 30% of their
@@ -19,7 +22,7 @@ public class EnrageSkill extends MagicSkill {
      */
     @Override
     public void execute(Entity entity) {
-        System.out.println("Enrage klick");
+        BossLogger.info("Enrage klick");
         HealthComponent hCp;
         VelocityComponent vCp;
         float ogX;
@@ -49,13 +52,13 @@ public class EnrageSkill extends MagicSkill {
             if (hero != null) {
                 ogDmg = hero.getDmg();
                 hero.setDmg(hero.getDmg() * 2);
-                System.out.println("Damage and velocity increased by 25% over 10 seconds.");
+                BossLogger.info("Damage and velocity increased by 25% over 10 seconds.");
                 durationTimer(vCp, ogX, ogY, hero, ogDmg);
             }
             if (bossMonster != null) {
                 ogDmg = bossMonster.getDmg();
                 bossMonster.setDmg(bossMonster.getDmg() * 2);
-                System.out.println("Damage and velocity increased by 25% over 10 seconds.");
+                BossLogger.info("Damage and velocity increased by 25% over 10 seconds.");
                 durationTimer(vCp, ogX, ogY, bossMonster, ogDmg);
             }
         }
@@ -80,7 +83,7 @@ public class EnrageSkill extends MagicSkill {
                         hero.setDmg(ogDmg);
                         vCp.setXVelocity(ogX);
                         vCp.setYVelocity(ogY);
-                        System.out.println("Enrage effect ended.");
+                        BossLogger.info("Enrage effect ended.");
                     }
                 },
                 (long) skillDuration * 1000);
@@ -95,7 +98,7 @@ public class EnrageSkill extends MagicSkill {
                         bossMonster.setDmg(ogDmg);
                         vCp.setXVelocity(ogX);
                         vCp.setYVelocity(ogY);
-                        System.out.println("Enrage effect ended.");
+                        BossLogger.info("Enrage effect ended.");
                     }
                 },
                 (long) skillDuration * 1000);
