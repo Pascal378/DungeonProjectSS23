@@ -12,7 +12,9 @@ import ecs.entities.Entity;
 import ecs.entities.Monster;
 import ecs.graphic.Animation;
 
-/** The Demon is an enemy monster which inherits from the Monster class. */
+/**
+ * The Demon is an enemy monster which inherits from the Monster class.
+ */
 public class Demon extends Monster {
 
     private boolean fightInRange = false;
@@ -39,9 +41,12 @@ public class Demon extends Monster {
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
+        Animation moveRight = AnimationBuilder.buildAnimation(pathToRunRight);
+        Animation moveLeft = AnimationBuilder.buildAnimation(pathToRunLeft);
         if (lvlFactor == 0) lvlFactor++;
         this.dmg = this.dmg * lvlFactor;
         this.maxHealthpoint = this.maxHealthpoint * lvlFactor;
+        new HealthComponent(this, this.maxHealthpoint, this::onDeath, moveLeft, moveRight);
     }
 
     private void setupVelocityComponent() {

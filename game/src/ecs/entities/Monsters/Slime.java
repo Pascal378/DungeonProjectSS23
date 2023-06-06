@@ -12,7 +12,9 @@ import ecs.entities.Entity;
 import ecs.entities.Monster;
 import ecs.graphic.Animation;
 
-/** The Slime is an enemy monster which inherits from the Monster class. */
+/**
+ * The Slime is an enemy monster which inherits from the Monster class.
+ */
 public class Slime extends Monster {
 
     private final String pathToIdleLeft = "character/monster/slime/idleLeft";
@@ -46,6 +48,7 @@ public class Slime extends Monster {
         Animation moveRight = AnimationBuilder.buildAnimation(pathToRunRight);
         Animation moveLeft = AnimationBuilder.buildAnimation(pathToRunLeft);
         new VelocityComponent(this, xSpeed, ySpeed, moveLeft, moveRight);
+        new HealthComponent(this, this.maxHealthpoint, this::onDeath, moveLeft, moveRight);
     }
 
     private void setupAnimationComponent() {

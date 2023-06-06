@@ -12,7 +12,9 @@ import ecs.entities.Entity;
 import ecs.entities.Monster;
 import ecs.graphic.Animation;
 
-/** The Imp is an enemy monster which inherits from the Monster class. */
+/**
+ * The Imp is an enemy monster which inherits from the Monster class.
+ */
 public class Imp extends Monster {
 
     private final String pathToIdleLeft = "character/monster/imp/idleLeft";
@@ -37,9 +39,12 @@ public class Imp extends Monster {
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
+        Animation idleRight = AnimationBuilder.buildAnimation(pathToIdleRight);
+        Animation idleLeft = AnimationBuilder.buildAnimation(pathToIdleLeft);
         if (lvlFactor == 0) lvlFactor++;
         this.dmg = this.dmg * lvlFactor;
         this.maxHealthpoint = this.maxHealthpoint * lvlFactor;
+        new HealthComponent(this, this.maxHealthpoint, this::onDeath, idleLeft, idleRight);
     }
 
     public Imp() {
