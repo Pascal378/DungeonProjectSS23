@@ -19,7 +19,7 @@ public class SaveGame {
 
     private transient Hero hero;
 
-    private Logger saveLogger = Logger.getLogger(SaveGame.class.getName());
+    private final Logger saveLogger = Logger.getLogger(SaveGame.class.getName());
 
     /**
      * Constructor that collects all the objects and information to save
@@ -41,9 +41,23 @@ public class SaveGame {
     }
 
     /**
+     * Updates data object
+     */
+    public void updateData() {
+        this.data =
+            new SaveData(
+                Game.getEntitiesToAdd(),
+                Game.getCurrentLvl(),
+                hero.getLevel(),
+                hero.getCurrentHealth(),
+                hero.getMaxHealth());
+    }
+
+    /**
      * Write the SaveFile
      */
     public void writeSave() {
+        updateData();
         try {
             FileOutputStream fos = new FileOutputStream("SaveFile.ser");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -96,6 +110,12 @@ public class SaveGame {
         hero.setLevel(toRead.getHeroLvl());
         hero.setMaxHealth(toRead.getMaxHp());
         hero.setCurrentHealth(toRead.getCurrentHp());
+
+        saveLogger.info(
+            "Set Hero level" + toRead.getHeroLvl() +
+                " Set Max HP: " + toRead.getMaxHp() +
+                " Set currentHP: " + toRead.getCurrentHp()
+        );
 
         saveLogger.info("Finished setting up Entities from SaveFile");
     }
