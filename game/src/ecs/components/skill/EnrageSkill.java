@@ -30,9 +30,7 @@ public class EnrageSkill extends MagicSkill {
         float ogY;
         int ogDmg;
         Hero hero = null;
-        BossMonster bossMonster = null;
         if (entity instanceof Hero) hero = (Hero) entity;
-        if (entity instanceof BossMonster) bossMonster = (BossMonster) entity;
 
         // Check if entity has HealthComponent and lower their health
         if (entity.getComponent(HealthComponent.class).isPresent()) {
@@ -56,12 +54,6 @@ public class EnrageSkill extends MagicSkill {
                 BossLogger.info("Damage and velocity increased by 25% over 10 seconds.");
                 durationTimer(vCp, ogX, ogY, hero, ogDmg);
             }
-            if (bossMonster != null) {
-                ogDmg = bossMonster.getDmg();
-                bossMonster.setDmg(bossMonster.getDmg() * 2);
-                BossLogger.info("Damage and velocity increased by 25% over 10 seconds.");
-                durationTimer(vCp, ogX, ogY, bossMonster, ogDmg);
-            }
         }
     }
 
@@ -82,21 +74,6 @@ public class EnrageSkill extends MagicSkill {
             new TimerTask() {
                 public void run() {
                     hero.setDmg(ogDmg);
-                    vCp.setXVelocity(ogX);
-                    vCp.setYVelocity(ogY);
-                    BossLogger.info("Enrage effect ended.");
-                }
-            },
-            (long) skillDuration * 1000);
-    }
-
-    public void durationTimer(
-        VelocityComponent vCp, float ogX, float ogY, BossMonster bossMonster, int ogDmg) {
-        Timer timer = new Timer();
-        timer.schedule(
-            new TimerTask() {
-                public void run() {
-                    bossMonster.setDmg(ogDmg);
                     vCp.setXVelocity(ogX);
                     vCp.setYVelocity(ogY);
                     BossLogger.info("Enrage effect ended.");

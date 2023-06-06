@@ -6,10 +6,7 @@ import ecs.components.ai.AIComponent;
 import ecs.components.ai.fight.BossAI;
 import ecs.components.ai.idle.BossWalk;
 import ecs.components.ai.transition.RangeTransition;
-import ecs.components.skill.EnrageSkill;
-import ecs.components.skill.FireballSkill;
-import ecs.components.skill.Skill;
-import ecs.components.skill.SkillComponent;
+import ecs.components.skill.*;
 import ecs.entities.Entity;
 import ecs.entities.Friendly.Hero;
 import ecs.graphic.Animation;
@@ -49,7 +46,7 @@ public class BossMonster extends Monster {
         super();
         setupVelocityComponent();
         setupSkillComponent();
-        setupEnrageSkill();
+        setupIceballSkill();
         setupFireballSkill();
         setupHealthComponent();
         setupAnimationComponent();
@@ -102,9 +99,12 @@ public class BossMonster extends Monster {
         sCp = new SkillComponent(this);
     }
 
-    private void setupEnrageSkill() {
-        firstSkill = new Skill(new EnrageSkill(), 10);
-        sCp.addSkill(firstSkill);
+    private void setupIceballSkill() {
+    sCp.addSkill(
+        firstSkill =
+            new Skill(
+                new IceballSkill(() -> hero.getPosition().getPoint()),
+                 fireballCoolDown));
     }
 
     private void setupFireballSkill() {
