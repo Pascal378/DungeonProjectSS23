@@ -12,9 +12,7 @@ import ecs.entities.Entity;
 import ecs.entities.Friendly.Hero;
 import ecs.graphic.Animation;
 
-/**
- * The Demon is an enemy monster which inherits from the Monster class.
- */
+/** The Demon is an enemy monster which inherits from the Monster class. */
 public class Demon extends Monster {
 
     private boolean fightInRange = false;

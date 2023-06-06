@@ -7,9 +7,8 @@ import ecs.components.xp.ILevelUp;
 import ecs.components.xp.XPComponent;
 import ecs.entities.Entity;
 import ecs.graphic.Animation;
-import starter.Game;
-
 import java.util.logging.Logger;
+import starter.Game;
 
 /**
  * The Hero is the player character. It's entity in the ECS. This class helps to setup the hero with
@@ -36,7 +35,6 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
 
     private transient PositionComponent position;
 
-
     private transient Skill firstSkill;
     private transient Skill secondSkill;
     private transient Skill thirdSkill;
@@ -52,9 +50,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
 
     private static boolean dead = false;
 
-    /**
-     * Entity with Components
-     */
+    /** Entity with Components */
     public Hero() {
         super();
         this.position = new PositionComponent(this);
@@ -106,8 +102,8 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
 
     private void setupFireballSkill() {
         firstSkill =
-            new Skill(
-                new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
+                new Skill(
+                        new FireballSkill(SkillTools::getCursorPositionAsPoint), fireballCoolDown);
     }
 
     private void setupHealSkill() {
@@ -120,9 +116,7 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
         sCp.addSkill(thirdSkill);
     }
 
-    /**
-     * Modifies the current health by passed amount
-     */
+    /** Modifies the current health by passed amount */
     public void setHealth(int amount) {
         heroLogger.info("HP before: " + this.hp.getCurrentHealthpoints());
         this.hp.setCurrentHealthpoints(this.hp.getCurrentHealthpoints() + amount);

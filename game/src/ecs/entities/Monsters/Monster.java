@@ -13,9 +13,7 @@ public class Monster extends Entity implements IOnDeathFunction {
 
     private Hero hero;
 
-    /**
-     * Entity with Components
-     */
+    /** Entity with Components */
     public Monster() {
         super();
 
@@ -23,7 +21,5 @@ public class Monster extends Entity implements IOnDeathFunction {
     }
 
     @Override
-    public void onDeath(Entity entity) {
-
-    }
+    public void onDeath(Entity entity) {}
 }

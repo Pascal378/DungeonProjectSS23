@@ -12,12 +12,12 @@ import starter.Game;
 import tools.Constants;
 
 public record BossAI(
-    float attackRange,
-    Skill fightSkill,
-    Skill fightSkillTwo,
-    HealthComponent hc,
-    VelocityComponent vC)
-    implements IFightAI {
+        float attackRange,
+        Skill fightSkill,
+        Skill fightSkillTwo,
+        HealthComponent hc,
+        VelocityComponent vC)
+        implements IFightAI {
 
     private static int frames = Constants.FRAME_RATE * 2;
 

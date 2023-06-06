@@ -8,13 +8,10 @@ import ecs.entities.Monsters.Imp;
 import ecs.entities.Monsters.Slime;
 import ecs.entities.Traps.BearTrap;
 import ecs.entities.Traps.Mine;
-
 import java.io.*;
 import java.util.logging.Logger;
 
-/**
- * Saves and reads entities to/from file.
- */
+/** Saves and reads entities to/from file. */
 public class SaveGame {
     private SaveData data;
 
@@ -22,9 +19,7 @@ public class SaveGame {
 
     private final Logger saveLogger = Logger.getLogger(SaveGame.class.getName());
 
-    /**
-     * Constructor that collects all the objects and information to save
-     */
+    /** Constructor that collects all the objects and information to save */
     public SaveGame() {
 
         if (Game.getHero().isPresent()) {
@@ -32,31 +27,27 @@ public class SaveGame {
         }
 
         this.data =
-            new SaveData(
-                Game.getEntitiesToAdd(),
-                Game.getCurrentLvl(),
-                hero.getLevel(),
-                hero.getCurrentHealth(),
-                hero.getMaxHealth());
+                new SaveData(
+                        Game.getEntitiesToAdd(),
+                        Game.getCurrentLvl(),
+                        hero.getLevel(),
+                        hero.getCurrentHealth(),
+                        hero.getMaxHealth());
         saveLogger.info("SaveGame is active");
     }
 
-    /**
-     * Updates data object
-     */
+    /** Updates data object */
     public void updateData() {
         this.data =
-            new SaveData(
-                Game.getEntitiesToAdd(),
-                Game.getCurrentLvl(),
-                hero.getLevel(),
-                hero.getCurrentHealth(),
-                hero.getMaxHealth());
+                new SaveData(
+                        Game.getEntitiesToAdd(),
+                        Game.getCurrentLvl(),
+                        hero.getLevel(),
+                        hero.getCurrentHealth(),
+                        hero.getMaxHealth());
     }
 
-    /**
-     * Write the SaveFile
-     */
+    /** Write the SaveFile */
     public void writeSave() {
         updateData();
         try {
@@ -70,9 +61,7 @@ public class SaveGame {
         }
     }
 
-    /**
-     * Read the SaveFile
-     */
+    /** Read the SaveFile */
     public void readSave() {
         SaveData toRead;
 
@@ -114,10 +103,12 @@ public class SaveGame {
         hero.setCurrentHealth(toRead.getCurrentHp());
 
         saveLogger.info(
-            "Set Hero level" + toRead.getHeroLvl() +
-                " Set Max HP: " + toRead.getMaxHp() +
-                " Set currentHP: " + toRead.getCurrentHp()
-        );
+                "Set Hero level"
+                        + toRead.getHeroLvl()
+                        + " Set Max HP: "
+                        + toRead.getMaxHp()
+                        + " Set currentHP: "
+                        + toRead.getCurrentHp());
 
         saveLogger.info("Finished setting up Entities from SaveFile");
     }

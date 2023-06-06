@@ -9,7 +9,6 @@ import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import ecs.graphic.Animation;
-
 import java.util.ArrayList;
 
 public class BearTrap extends Trap {
@@ -36,9 +35,9 @@ public class BearTrap extends Trap {
 
     private void setupHitboxComponent() {
         new HitboxComponent(
-            this,
-            (you, other, direction) -> triggerAction(other),
-            (you, other, direction) -> System.out.print(""));
+                this,
+                (you, other, direction) -> triggerAction(other),
+                (you, other, direction) -> System.out.print(""));
     }
 
     void triggerAction(Entity other) {
