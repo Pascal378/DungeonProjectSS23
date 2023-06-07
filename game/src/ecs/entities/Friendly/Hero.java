@@ -7,6 +7,7 @@ import ecs.components.xp.ILevelUp;
 import ecs.components.xp.XPComponent;
 import ecs.entities.Entity;
 import ecs.graphic.Animation;
+import java.io.File;
 import java.util.logging.Logger;
 import starter.Game;
 
@@ -160,6 +161,10 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
      * @param entity on Death of the given entity
      */
     public void onDeath(Entity entity) {
+        File saveGame = new File("SaveFile.ser");
+        if (saveGame.exists()) {
+            saveGame.delete();
+        }
         Game.getGameOverMenu().showMenu();
     }
 
