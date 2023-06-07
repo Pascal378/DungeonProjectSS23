@@ -88,7 +88,10 @@ public class FriendlyGhost extends Entity {
     }
 
     private void setupHitboxComponent() {
-        new HitboxComponent(this, null, null);
+        new HitboxComponent(
+                this,
+                (you, other, direction) -> ghostLogger.info("collide"),
+                (you, other, direction) -> ghostLogger.info("collide"));
     }
 
     /** */

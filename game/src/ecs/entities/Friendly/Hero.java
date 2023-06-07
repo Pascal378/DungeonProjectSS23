@@ -125,7 +125,10 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     }
 
     private void setupHitboxComponent() {
-        new HitboxComponent(this, null, null);
+        new HitboxComponent(
+                this,
+                (you, other, direction) -> heroLogger.info("collide"),
+                (you, other, direction) -> heroLogger.info("collide"));
     }
 
     public void setDmg(int dmg) {
