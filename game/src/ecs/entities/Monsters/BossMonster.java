@@ -6,7 +6,10 @@ import ecs.components.ai.AIComponent;
 import ecs.components.ai.fight.BossAI;
 import ecs.components.ai.idle.BossWalk;
 import ecs.components.ai.transition.RangeTransition;
-import ecs.components.skill.*;
+import ecs.components.skill.FireballSkill;
+import ecs.components.skill.IceballSkill;
+import ecs.components.skill.Skill;
+import ecs.components.skill.SkillComponent;
 import ecs.entities.Entity;
 import ecs.entities.Friendly.Hero;
 import ecs.graphic.Animation;
@@ -91,7 +94,10 @@ public class BossMonster extends Monster {
     }
 
     private void setupHitboxComponent() {
-        new HitboxComponent(this, null, null);
+        new HitboxComponent(
+                this,
+                (you, other, direction) -> bossMonsterLogger.info("collide"),
+                (you, other, direction) -> bossMonsterLogger.info("collide"));
     }
 
     private void setupSkillComponent() {

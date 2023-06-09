@@ -60,7 +60,10 @@ public class Demon extends Monster {
     }
 
     private void setupHitboxComponent() {
-        new HitboxComponent(this, (you, other, direction) -> doDmg(other), null);
+        new HitboxComponent(
+                this,
+                (you, other, direction) -> doDmg(other),
+                (you, other, direction) -> System.out.println(""));
     }
 
     private void doDmg(Entity other) {

@@ -37,7 +37,7 @@ public class BearTrap extends Trap {
         new HitboxComponent(
                 this,
                 (you, other, direction) -> triggerAction(other),
-                (you, other, direction) -> System.out.print(""));
+                (you, other, direction) -> System.out.println());
     }
 
     void triggerAction(Entity other) {
