@@ -13,6 +13,7 @@ import ecs.components.skill.SkillComponent;
 import ecs.entities.Entity;
 import ecs.entities.Friendly.Hero;
 import ecs.graphic.Animation;
+
 import java.util.logging.Logger;
 
 public class BossMonster extends Monster {
@@ -41,8 +42,7 @@ public class BossMonster extends Monster {
     /**
      * Constructor
      *
-     * @param hero - when initialized it needs to get passed the hero, so that it knows who to
-     *     reward if a grave is found
+     * @param hero
      */
     public BossMonster(Hero hero) {
         super();
@@ -56,15 +56,10 @@ public class BossMonster extends Monster {
         this.hero = hero;
         this.position = new PositionComponent(this);
         new AIComponent(
-                this,
-                new BossAI(attackrange, firstSkill, secondSkill, hp, vC),
-                new BossWalk(2, 1f, hp),
-                new RangeTransition(attackrange + 0.5f));
-
-        // Because of a bug I have to put the creation of the skills into an if condition that only
-        // activates if the hero is in @attackrang
-        // setupMeleeAI();
-
+            this,
+            new BossAI(attackrange, firstSkill, secondSkill, hp, vC),
+            new BossWalk(2, 1f, hp),
+            new RangeTransition(attackrange + 0.5f));
     }
 
     private void setupHealthComponent() {
@@ -95,9 +90,9 @@ public class BossMonster extends Monster {
 
     private void setupHitboxComponent() {
         new HitboxComponent(
-                this,
-                (you, other, direction) -> bossMonsterLogger.info("collide"),
-                (you, other, direction) -> bossMonsterLogger.info("collide"));
+            this,
+            (you, other, direction) -> bossMonsterLogger.info("collide"),
+            (you, other, direction) -> bossMonsterLogger.info("collide"));
     }
 
     private void setupSkillComponent() {
@@ -106,18 +101,18 @@ public class BossMonster extends Monster {
 
     private void setupIceballSkill() {
         sCp.addSkill(
-                firstSkill =
-                        new Skill(
-                                new IceballSkill(() -> hero.getPosition().getPoint()),
-                                fireballCoolDown));
+            firstSkill =
+                new Skill(
+                    new IceballSkill(() -> hero.getPosition().getPoint()),
+                    fireballCoolDown));
     }
 
     private void setupFireballSkill() {
         sCp.addSkill(
-                secondSkill =
-                        new Skill(
-                                new FireballSkill(() -> hero.getPosition().getPoint()),
-                                fireballCoolDown));
+            secondSkill =
+                new Skill(
+                    new FireballSkill(() -> hero.getPosition().getPoint()),
+                    fireballCoolDown));
     }
 
     public Hero getHero() {
