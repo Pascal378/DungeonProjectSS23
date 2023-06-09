@@ -1,9 +1,13 @@
-package ecs.entities;
+package ecs.entities.Traps;
 
 import dslToGame.AnimationBuilder;
-import ecs.components.*;
+import ecs.components.AnimationComponent;
+import ecs.components.HealthComponent;
+import ecs.components.HitboxComponent;
+import ecs.components.PositionComponent;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
+import ecs.entities.Entity;
 import ecs.graphic.Animation;
 import java.util.ArrayList;
 
@@ -15,6 +19,13 @@ public class Mine extends Trap {
 
     public Mine() {
         super();
+        new PositionComponent(this);
+        setupAnimationComponent();
+        setupHitboxComponent();
+        this.setTrapDmg(1);
+    }
+
+    public void setup() {
         new PositionComponent(this);
         setupAnimationComponent();
         setupHitboxComponent();

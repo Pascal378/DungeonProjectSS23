@@ -9,7 +9,7 @@ import ecs.components.ai.transition.FriendlyTransition;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
-import ecs.entities.Monster;
+import ecs.entities.Friendly.Hero;
 import ecs.graphic.Animation;
 
 /** The Slime is an enemy monster which inherits from the Monster class. */
@@ -46,6 +46,7 @@ public class Slime extends Monster {
         Animation moveRight = AnimationBuilder.buildAnimation(pathToRunRight);
         Animation moveLeft = AnimationBuilder.buildAnimation(pathToRunLeft);
         new VelocityComponent(this, xSpeed, ySpeed, moveLeft, moveRight);
+        new HealthComponent(this, this.maxHealthpoint, this::onDeath, moveLeft, moveRight);
     }
 
     private void setupAnimationComponent() {
@@ -55,10 +56,14 @@ public class Slime extends Monster {
     }
 
     private void setupHitboxComponent() {
-        new HitboxComponent(this, (you, other, direction) -> doDmg(other), null);
+        new HitboxComponent(
+                this,
+                (you, other, direction) -> doDmg(other),
+                (you, other, direction) -> System.out.println(""));
     }
 
     private void doDmg(Entity other) {
+        if (!(other instanceof Hero)) return;
         if (other.getComponent(HealthComponent.class).isPresent()) {
             HealthComponent ofE = (HealthComponent) other.getComponent(HealthComponent.class).get();
             ofE.receiveHit(new Damage(this.getDmg(), DamageType.PHYSICAL, this));

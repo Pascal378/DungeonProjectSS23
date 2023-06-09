@@ -4,7 +4,7 @@ import dslToGame.AnimationBuilder;
 import ecs.components.InventoryComponent;
 import ecs.components.xp.XPComponent;
 import ecs.entities.Entity;
-import ecs.entities.Hero;
+import ecs.entities.Friendly.Hero;
 import ecs.items.IOnCollect;
 import ecs.items.ItemData;
 import ecs.items.ItemType;

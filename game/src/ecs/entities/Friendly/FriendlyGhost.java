@@ -1,4 +1,4 @@
-package ecs.entities;
+package ecs.entities.Friendly;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.AnimationComponent;
@@ -9,6 +9,7 @@ import ecs.components.ai.AIComponent;
 import ecs.components.ai.fight.CollideAI;
 import ecs.components.ai.idle.RadiusWalk;
 import ecs.components.ai.transition.FriendlyTransition;
+import ecs.entities.Entity;
 import ecs.graphic.Animation;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -32,7 +33,7 @@ public class FriendlyGhost extends Entity {
 
     private Hero hero;
 
-    Logger ghostLogger = Logger.getLogger(getClass().getName());
+    private transient Logger ghostLogger = Logger.getLogger(getClass().getName());
     private final String pathToIdleLeft = "monster/ghost/idelLeft";
     private final String pathToIdleRight = "monster/ghost/idelRight";
     private final String pathToRunLeft = "monster/ghost/runLeft";
@@ -46,6 +47,18 @@ public class FriendlyGhost extends Entity {
      */
     public FriendlyGhost(Hero hero) {
         super();
+        new PositionComponent(this);
+        setupVelocityComponent();
+        setupAnimationComponent();
+        setupHitboxComponent();
+        setupAi();
+        this.hero = hero;
+
+        // 80% chance of spawning a grave
+        if (new Random().nextInt(0, 100) > 20) spawnGrave();
+    }
+
+    public void setup() {
         new PositionComponent(this);
         setupVelocityComponent();
         setupAnimationComponent();
@@ -75,7 +88,10 @@ public class FriendlyGhost extends Entity {
     }
 
     private void setupHitboxComponent() {
-        new HitboxComponent(this, null, null);
+        new HitboxComponent(
+                this,
+                (you, other, direction) -> ghostLogger.info("collide"),
+                (you, other, direction) -> ghostLogger.info("collide"));
     }
 
     /** */

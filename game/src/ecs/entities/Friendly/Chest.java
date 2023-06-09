@@ -1,6 +1,7 @@
-package ecs.entities;
+package ecs.entities.Friendly;
 
 import ecs.components.*;
+import ecs.entities.Entity;
 import ecs.graphic.Animation;
 import ecs.items.ItemData;
 import ecs.items.ItemDataGenerator;

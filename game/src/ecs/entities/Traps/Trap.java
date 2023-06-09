@@ -1,4 +1,6 @@
-package ecs.entities;
+package ecs.entities.Traps;
+
+import ecs.entities.Entity;
 
 /** Trap Class as a scheme for traps */
 public abstract class Trap extends Entity {
@@ -14,6 +16,12 @@ public abstract class Trap extends Entity {
     public Trap() {}
 
     public Trap(boolean triggered, boolean repeatable, int trapDmg) {
+        this.triggered = triggered;
+        this.repeatable = repeatable;
+        this.trapDmg = trapDmg;
+    }
+
+    public void setup() {
         this.triggered = triggered;
         this.repeatable = repeatable;
         this.trapDmg = trapDmg;

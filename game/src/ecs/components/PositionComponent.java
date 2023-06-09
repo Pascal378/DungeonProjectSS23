@@ -12,7 +12,7 @@ import tools.Point;
 @DSLType(name = "position_component")
 public class PositionComponent extends Component {
 
-    private final Logger positionCompLogger = Logger.getLogger(this.getClass().getName());
+    private final transient Logger positionCompLogger = Logger.getLogger(this.getClass().getName());
     private /*@DSLTypeMember(name="position")*/ Point position;
 
     /**
@@ -90,5 +90,9 @@ public class PositionComponent extends Component {
      */
     public void setPosition(Point position) {
         this.position = position;
+    }
+
+    public Point getPoint() {
+        return position;
     }
 }
