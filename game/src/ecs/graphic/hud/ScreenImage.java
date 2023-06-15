@@ -7,6 +7,7 @@ import tools.Point;
 
 /** This class is intended for the configuration of the image to be displayed. */
 public class ScreenImage extends Image {
+    private static final String texturePath = null;
 
     /**
      * Creates an Image for the UI
