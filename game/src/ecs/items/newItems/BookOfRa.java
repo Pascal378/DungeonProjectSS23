@@ -5,17 +5,34 @@ import ecs.components.InventoryComponent;
 import ecs.components.xp.XPComponent;
 import ecs.entities.Entity;
 import ecs.entities.Friendly.Hero;
-import ecs.items.IOnCollect;
-import ecs.items.ItemData;
-import ecs.items.ItemType;
-import ecs.items.WorldItemBuilder;
+import ecs.graphic.Animation;
+import ecs.items.*;
+
 import java.util.Random;
 import starter.Game;
+import tools.Point;
 
 /** Book of Ra grants the hero 1-5% XP of the XP left to level up per book in inventory. */
-public class BookOfRa extends ItemData implements IOnCollect {
+public class BookOfRa extends ItemData implements IOnCollect, IOnDrop {
     InventoryComponent inv;
     Hero hero;
+
+    public BookOfRa(ItemType itemType,
+                    Animation inventoryTexture,
+                    Animation worldTexture,
+                    String itemName,
+                    String description){
+        super(itemType, inventoryTexture, worldTexture, itemName, description);
+        hero = null;
+        if (Game.getHero().isPresent()) {
+            hero = (Hero) Game.getHero().get();
+        }
+
+        if (hero.getComponent(InventoryComponent.class).isPresent()) {
+            inv = (hero.getInv());
+        }
+        this.setOnCollect(this);
+    }
 
     public BookOfRa() {
         super(
@@ -38,6 +55,7 @@ public class BookOfRa extends ItemData implements IOnCollect {
 
         this.setOnCollect(this);
     }
+
 
     /**
      * Adds item to the inventory or if available to a book bag
@@ -80,5 +98,10 @@ public class BookOfRa extends ItemData implements IOnCollect {
         xp.addXP(randomXP);
         itemLogger.info("XP missing to level up: " + xp.getXPToNextLevel());
         itemLogger.info("Granted " + randomXP + " by the Book of Ra.");
+    }
+
+    @Override
+    public void onDrop(Entity user, ItemData which, Point position) {
+
     }
 }

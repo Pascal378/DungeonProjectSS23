@@ -2,18 +2,19 @@ package ecs.items.newItems;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.HealthComponent;
+import ecs.components.InventoryComponent;
 import ecs.entities.Entity;
 import ecs.entities.Friendly.Hero;
-import ecs.items.IOnCollect;
-import ecs.items.ItemData;
-import ecs.items.ItemType;
-import ecs.items.WorldItemBuilder;
+import ecs.graphic.Animation;
+import ecs.items.*;
+
 import java.util.Timer;
 import java.util.TimerTask;
 import starter.Game;
+import tools.Point;
 
 /** The invincible Potion is an item that makes the hero immortal onCollect. */
-public class InvinciblePotion extends ItemData implements IOnCollect {
+public class InvinciblePotion extends ItemData implements IOnCollect, IOnDrop {
 
     public InvinciblePotion() {
         super(
@@ -24,6 +25,16 @@ public class InvinciblePotion extends ItemData implements IOnCollect {
                 "A Potion which makes you immortal for 5 seconds");
 
         WorldItemBuilder.buildWorldItem(this);
+        this.setOnCollect(this);
+    }
+
+    public InvinciblePotion(ItemType itemType,
+                    Animation inventoryTexture,
+                    Animation worldTexture,
+                    String itemName,
+                    String description){
+        super(itemType, inventoryTexture, worldTexture, itemName, description);
+        //WorldItemBuilder.buildWorldItem(this);
         this.setOnCollect(this);
     }
 
@@ -68,5 +79,10 @@ public class InvinciblePotion extends ItemData implements IOnCollect {
                         (long) 5 * 1000);
             }
         }
+    }
+
+    @Override
+    public void onDrop(Entity user, ItemData which, Point position) {
+
     }
 }

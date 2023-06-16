@@ -5,10 +5,7 @@ import ecs.components.*;
 import ecs.components.ai.AIComponent;
 import ecs.components.ai.fight.CollideAI;
 import ecs.components.ai.idle.PatrouilleWalk;
-import ecs.components.ai.idle.RadiusWalk;
-import ecs.components.ai.transition.FriendlyTransition;
 import ecs.components.ai.transition.RangeTransition;
-import ecs.components.ai.transition.SelfDefendTransition;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
@@ -79,22 +76,26 @@ public class ChestMonster extends Monster {
         }
     }
 
+    @Override
     public void onDeath(Entity entity) {
-        spawnChest(entity);
+        spawnOriginalChest(entity);
         Game.getEntitiesToRemove().add(this);
     }
+
     /**
      * Generates a new chest with Items on the last position of the monster before it died.
+     *
      * @param entity ChestMonster
      */
-    private static void spawnChest(Entity entity) {
+    private static void spawnOriginalChest(Entity entity) {
+        // getting the last position of the entity
         PositionComponent positionComponent =
             (PositionComponent)
                 entity.getComponent(PositionComponent.class)
                     .orElseThrow(
                         () ->
                             new IllegalStateException(
-                                "no PositionComponent"));
+                                "Entity does not have a PositionComponent"));
 
         // generating at least three random Items.
         List<ItemData> items = new ArrayList<>();
@@ -104,7 +105,7 @@ public class ChestMonster extends Monster {
         }
 
         // creating a new chest with the obove generated items.
-        new Chest(items,positionComponent.getPosition());
+        new Chest(items, positionComponent.getPosition());
     }
 
     public int getDmg() {
