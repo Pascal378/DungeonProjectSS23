@@ -61,10 +61,6 @@ public class BossMonster extends Monster {
                 new BossWalk(2, 1f, hp),
                 new RangeTransition(attackrange + 0.5f));
 
-        // Because of a bug I have to put the creation of the skills into an if condition that only
-        // activates if the hero is in @attackrang
-        // setupMeleeAI();
-
     }
 
     private void setupHealthComponent() {

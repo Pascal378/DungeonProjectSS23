@@ -16,12 +16,11 @@ import ecs.components.InventoryComponent;
 import ecs.components.MissingComponentException;
 import ecs.components.PositionComponent;
 import ecs.entities.Entity;
+import ecs.entities.Friendly.Chest;
 import ecs.entities.Friendly.FriendlyGhost;
 import ecs.entities.Friendly.Hero;
-import ecs.entities.Monsters.BossMonster;
-import ecs.entities.Monsters.Demon;
-import ecs.entities.Monsters.Imp;
-import ecs.entities.Monsters.Slime;
+import ecs.entities.Friendly.PreMonsterChest;
+import ecs.entities.Monsters.*;
 import ecs.entities.Traps.BearTrap;
 import ecs.entities.Traps.Mine;
 import ecs.graphic.DungeonCamera;
@@ -47,6 +46,7 @@ import level.elements.tile.Tile;
 import level.generator.IGenerator;
 import level.generator.postGeneration.WallGenerator;
 import level.generator.randomwalk.RandomWalkGenerator;
+import level.tools.LevelElement;
 import level.tools.LevelSize;
 import tools.Constants;
 import tools.Point;
@@ -180,7 +180,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
         loadGhost();
+        spawnChest();
         if (!checkSave()) {
+
             spawnMonster();
             new Mine();
             new BearTrap();
@@ -188,16 +190,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
         spawnBoss();
         spawnItems();
-
         currentLvl++;
         bookCheck();
-
-        new BookOfRa();
-        new BookOfRa();
-        new BookOfRa();
-        new BookOfRa();
-        new BookOfRa();
-
         Hero hero1 = (Hero) Game.hero;
         hero1.getXpCmp().addXP(hero1.getXpCmp().getXPToNextLevel());
         gameLogger.info("Current Level: " + currentLvl);
@@ -250,6 +244,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
             monster++;
         }
         gameLogger.info("Amount of monsters spawned in this level: " + monster);
+    }
+
+    private void spawnChest(){
+            List<ItemData> items = new ArrayList<>();
+            new PreMonsterChest(
+                items,
+                Game.currentLevel.getRandomTile(LevelElement.FLOOR).getCoordinate().toPoint());
     }
 
     private void spawnBoss() {
