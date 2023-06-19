@@ -1,23 +1,40 @@
 package ecs.graphic.hud.Healthbar;
-
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import controller.ScreenController;
 import ecs.graphic.hud.ScreenImage;
+import starter.Game;
 import tools.Point;
+import java.util.logging.Logger;
 
-public class FullHeart <T extends Actor> extends ScreenImage {
+/**
+ * The class is used to display a Full-Heart image graphically,
+ * when the health points of the hero are greater than 50% of his maximal health points.
+ * @param <T> a data typ
+ */
 
+public class FullHeart <T extends Actor> extends ScreenController<T> {
+    private final Logger logger = Logger.getLogger(getClass().getName());
     private static final String texturePath = "hud/ui_heart_full.png";
-    private static final Point position = new Point(0f,0f);
-    /**
-     * Creates an Image for the UI
-     *
-     * @param texturePath the Path to the Texture
-     * @param position    the Position where the Image should be drawn
-     */
-    public FullHeart(String texturePath, Point position) {
-        super(texturePath, position);
-    }
+    private static final Point position = new Point(3f,429f);
+
+    /** Creates a new default Constructor with a new Spritebatch */
     public FullHeart() {
-        super(texturePath,position);
+        this(new SpriteBatch());
+    }
+
+    /**
+     * Creates a Screencontroller with a ScalingViewport which stretches the ScreenElements on
+     * resize
+     *
+     * @param batch the batch which should be used to draw with
+     */
+    public FullHeart(SpriteBatch batch) {
+        super(batch);
+        ScreenImage<Actor> screenImage = new ScreenImage<Actor>(texturePath, position);
+        if (Game.getPlayHero().getCurrentHealth() > 51) {
+            logger.info("the FullHeart was displayed");
+            add((T) screenImage);
+        }
     }
 }

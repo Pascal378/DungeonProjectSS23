@@ -1,24 +1,39 @@
 package ecs.graphic.hud.Healthbar;
-
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import controller.ScreenController;
 import ecs.graphic.hud.ScreenImage;
+import starter.Game;
 import tools.Point;
+import java.util.logging.Logger;
 
-public class HalfHeart <T extends Actor> extends ScreenImage {
+/**
+ * The class is used to display a Half-Heart image graphically,
+ * when the health points of the hero are less than 50% of his maximal health points.
+ * @param <T> a data typ
+ */
+public class HalfHeart <T extends Actor> extends ScreenController<T> {
+
+    private final Logger logger = Logger.getLogger(getClass().getName());
     private static final String texturePath1 = "hud/ui_heart_half.png";
-    private static final Point position = new Point(0f,0f);
+    private static final Point position = new Point(3f,429f);
 
-    /**
-     * Creates an Image for the UI
-     *
-     * @param texturePath the Path to the Texture
-     * @param position    the Position where the Image should be drawn
-     */
-    public HalfHeart(String texturePath, Point position) {
-        super(texturePath, position);
+    /** Creates a new default Constructor with a new Spritebatch */
+    public HalfHeart(){
+        this(new SpriteBatch());
     }
 
-    public HalfHeart() {
-        super(texturePath1,position);
+    /**
+     * Creates a Screencontroller with a ScalingViewport which stretches the ScreenElements on
+     * resize,and an image for the UI will be also created.
+     * @param batch the batch which should be used to draw with
+     */
+    public HalfHeart(SpriteBatch batch) {
+        super(batch);
+        ScreenImage<T> screenImage = new ScreenImage<>(texturePath1,position);
+        if (Game.getPlayHero().getCurrentHealth()<= 50 && Game.getPlayHero().getCurrentHealth()> 10 ){
+            add((T) screenImage);
+            logger.info("the HalfHeart was displayed");
+        }
     }
 }

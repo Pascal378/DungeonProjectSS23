@@ -27,6 +27,9 @@ import ecs.entities.Traps.Mine;
 import ecs.graphic.DungeonCamera;
 import ecs.graphic.Painter;
 import ecs.graphic.hud.GameOverHUD;
+import ecs.graphic.hud.Healthbar.EmptyHeart;
+import ecs.graphic.hud.Healthbar.FullHeart;
+import ecs.graphic.hud.Healthbar.HalfHeart;
 import ecs.graphic.hud.InventoryHUD;
 import ecs.graphic.hud.PauseMenu;
 import ecs.items.ItemData;
@@ -61,12 +64,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
      * batch.
      */
     protected SpriteBatch batch;
-
     private static Game game;
-
     /** Contains all Controller of the Dungeon */
     protected List<AbstractController<?>> controller;
-
     public static DungeonCamera camera;
     /** Draws objects */
     protected Painter painter;
@@ -74,7 +74,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     protected LevelAPI levelAPI;
     /** Generates the level */
     protected IGenerator generator;
-
     private boolean doSetup = true;
     private static boolean paused = false;
 
@@ -92,16 +91,17 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static PauseMenu<Actor> pauseMenu;
     private static InventoryHUD<Actor> inventoryHUD;
     private static GameOverHUD<Actor> gameOverHUD;
+    private static EmptyHeart<Actor> emptyHeart;
+    private static HalfHeart<Actor> halfHeart;
+    private static FullHeart<Actor> fullHeart;
     private static boolean inventoryOpen = false;
     private static Entity hero;
     private static Hero playHero;
     private Logger gameLogger;
     private static int currentLvl = 0;
     private FriendlyGhost friendlyGhost;
-
     private SaveGame saveGame;
     private boolean onceLoaded = false;
-
     public static void main(String[] args) {
         // start the game
         try {
@@ -150,9 +150,14 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(pauseMenu);
         gameOverHUD = new GameOverHUD<>();
         controller.add(gameOverHUD);
+        fullHeart = new FullHeart<>();
+        controller.add(fullHeart);
+        halfHeart = new HalfHeart<>();
+        controller.add(halfHeart);
+        emptyHeart = new EmptyHeart<>();
+        controller.add(emptyHeart);
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(levelSize);
-
         createSystems();
     }
 
@@ -359,7 +364,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
             else inventoryHUD.hideMenu();
         }
     }
-
     /**
      * Returns the GameOverMenuObject
      *
@@ -439,6 +443,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     public void setSpriteBatch(SpriteBatch batch) {
         this.batch = batch;
     }
+
+    public static Hero getPlayHero() {return playHero; }
+
 
     private void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
