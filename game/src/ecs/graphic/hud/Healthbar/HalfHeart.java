@@ -3,7 +3,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import controller.ScreenController;
 import ecs.graphic.hud.ScreenImage;
-import starter.Game;
 import tools.Point;
 import java.util.logging.Logger;
 /**
@@ -31,5 +30,14 @@ public class HalfHeart <T extends Actor> extends ScreenController<T> {
         screenImage = new ScreenImage<>(texturePath1, position);
         add((T) screenImage);
         hideMenu();
+    }
+    /** shows the Image */
+    public void showMenu() {
+        this.forEach((Actor s) -> s.setVisible(true));
+        logger.info("Created Half Heart");
+    }
+    /** hides the Image */
+    public void hideMenu() {
+        this.forEach((Actor s) -> s.setVisible(false));
     }
 }

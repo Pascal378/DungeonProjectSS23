@@ -21,7 +21,7 @@ public class InventoryHUD<T extends Actor> extends ScreenController<T> {
             counter += 20;
             add(
                     (T)
-                            new ScreenImage(
+                            new ScreenImage<Actor>(
                                     "item/world/Bag/Bag.png",
                                     new Point((Constants.WINDOW_WIDTH) - counter, 10)));
         }

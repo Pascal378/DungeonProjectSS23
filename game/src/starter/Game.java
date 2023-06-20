@@ -88,9 +88,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static PauseMenu<Actor> pauseMenu;
     private static InventoryHUD<Actor> inventoryHUD;
     private static GameOverHUD<Actor> gameOverHUD;
-    private static EmptyHeart<Actor> emptyHeart;
-    private static HalfHeart<Actor> halfHeart;
     private static FullHeart<Actor> fullHeart;
+    private static HalfHeart<Actor> halfHeart;
+    private static EmptyHeart<Actor> emptyHeart;
     private static boolean inventoryOpen = false;
     private static Entity hero;
     private static Hero playHero;

@@ -11,10 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
+
+import ecs.graphic.hud.Healthbar.EmptyHeart;
 import logging.CustomLogLevel;
 import semanticAnalysis.types.DSLContextMember;
 import semanticAnalysis.types.DSLType;
 import semanticAnalysis.types.DSLTypeMember;
+import starter.Game;
 
 /** The HealthComponent makes an entity vulnerable and killable */
 @DSLType(name = "health_component")
@@ -85,6 +88,7 @@ public class HealthComponent extends Component {
         if (invincible) {
             healthLogger.info("Invincible is true");
             return;
+
         }
 
         damageToGet.add(damage);
