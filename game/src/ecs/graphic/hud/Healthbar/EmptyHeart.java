@@ -26,7 +26,7 @@ public class EmptyHeart <T extends Actor> extends ScreenController<T> {
     /**
      * Creates a Screencontroller with a ScalingViewport which stretches the ScreenElements on
      * resize,and an image for the UI will be also created.
-     * @param batch the batch which should be used to draw with
+     * @param batch the batch which should be used to draw with.
      */
     public EmptyHeart(SpriteBatch batch) {
         super(batch);

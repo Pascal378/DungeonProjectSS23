@@ -73,9 +73,9 @@ public class HealthComponent extends Component {
     }
 
     /**
-     * Adds damage, which is accounted for by the system
+     * Adds damage, which is accounted for by the system.
      *
-     * @param damage Damage that should be inflicted
+     * @param damage Damage that should be inflicted.
      */
     public void receiveHit(Damage damage) {
         if(entity instanceof Hero){

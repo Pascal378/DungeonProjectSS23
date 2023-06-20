@@ -146,10 +146,10 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(pauseMenu);
         gameOverHUD = new GameOverHUD<>();
         controller.add(gameOverHUD);
-        halfHeart = new HalfHeart<>();
-        controller.add(halfHeart);
         emptyHeart = new EmptyHeart<>();
         controller.add(emptyHeart);
+        halfHeart = new HalfHeart<>();
+        controller.add(halfHeart);
         fullHeart = new FullHeart<>();
         controller.add(fullHeart);
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
