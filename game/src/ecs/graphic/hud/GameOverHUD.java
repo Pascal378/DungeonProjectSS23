@@ -15,7 +15,7 @@ import tools.Point;
 /**
  * Implements a GameOver Menu which lets the player decide to restart or quit the game
  *
- * @param <T>
+ * @param <T> the ty
  */
 public class GameOverHUD<T extends Actor> extends ScreenController<T> {
 

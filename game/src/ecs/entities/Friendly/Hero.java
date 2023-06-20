@@ -236,4 +236,5 @@ public class Hero extends Entity implements IOnDeathFunction, ILevelUp {
     public void setPosition(PositionComponent position) {
         this.position = position;
     }
+
 }
