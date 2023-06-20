@@ -8,12 +8,16 @@ import ecs.entities.Entity;
 import ecs.entities.Monsters.ChestMonster;
 import ecs.graphic.Animation;
 import ecs.items.ItemData;
+import lombok.extern.java.Log;
 import starter.Game;
 import tools.Point;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class PreMonsterChest extends Chest {
+
+    private transient Logger preMonsterChest = Logger.getLogger(getClass().getName());
 
     /**
      * Creates a new Chest which drops the given items on interaction
@@ -23,6 +27,7 @@ public class PreMonsterChest extends Chest {
      */
     public PreMonsterChest(List<ItemData> itemData, Point position) {
         super();
+        preMonsterChest.info("spawn PreMonsterChest");
         new PositionComponent(this, position);
         InventoryComponent ic = new InventoryComponent(this, itemData.size());
         itemData.forEach(ic::addItem);

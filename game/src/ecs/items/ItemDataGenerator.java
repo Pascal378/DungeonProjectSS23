@@ -10,7 +10,6 @@ import java.util.Random;
 
 /** Generator which creates a random ItemData based on the Templates prepared. */
 public class ItemDataGenerator {
-    //private static final List<String> missingTexture = List.of("animation/missingTexture.png");
 
     private static final List<String> bookOfRa = List.of("item/drop/BookOfRa/BookOfRa.png");
     private static final List<String> greatsword = List.of("item/drop/Greatsword/greatsword.png");

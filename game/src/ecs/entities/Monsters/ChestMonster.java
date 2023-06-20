@@ -18,6 +18,7 @@ import starter.Game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ChestMonster extends Monster {
 
@@ -30,8 +31,19 @@ public class ChestMonster extends Monster {
     private int dmg = 3;
     private int maxHealthpoint = 4;
 
+    private transient Logger chestLogger = Logger.getLogger(getClass().getName());
+
+
+    /**
+     * Entity with Components
+     *
+     * @param lvlFactor - the factor by which damage and health is increased
+     * @param chest - to connect the ChestMonster with the PreMonsterChest
+     */
+
     public ChestMonster(int lvlFactor, Chest chest){
         super();
+        chestLogger.info("spawn ChestMonster/");
         this.chest = chest;
         new PositionComponent(this);
         new AIComponent(this,
@@ -80,6 +92,7 @@ public class ChestMonster extends Monster {
     public void onDeath(Entity entity) {
         spawnOriginalChest(entity);
         Game.getEntitiesToRemove().add(this);
+        chestLogger.info("Chest dead");
     }
 
     /**
