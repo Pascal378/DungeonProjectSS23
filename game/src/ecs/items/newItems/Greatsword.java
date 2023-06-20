@@ -25,13 +25,14 @@ public class Greatsword extends ItemData implements IOnCollect, IOnDrop {
         this.setOnCollect(this);
     }
 
-    public Greatsword(ItemType itemType,
-                            Animation inventoryTexture,
-                            Animation worldTexture,
-                            String itemName,
-                            String description){
+    public Greatsword(
+            ItemType itemType,
+            Animation inventoryTexture,
+            Animation worldTexture,
+            String itemName,
+            String description) {
         super(itemType, inventoryTexture, worldTexture, itemName, description);
-        //WorldItemBuilder.buildWorldItem(this);
+        // WorldItemBuilder.buildWorldItem(this);
         this.setOnCollect(this);
     }
 
@@ -53,7 +54,5 @@ public class Greatsword extends ItemData implements IOnCollect, IOnDrop {
     }
 
     @Override
-    public void onDrop(Entity user, ItemData which, Point position) {
-
-    }
+    public void onDrop(Entity user, ItemData which, Point position) {}
 }

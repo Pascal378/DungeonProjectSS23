@@ -2,12 +2,10 @@ package ecs.items.newItems;
 
 import dslToGame.AnimationBuilder;
 import ecs.components.HealthComponent;
-import ecs.components.InventoryComponent;
 import ecs.entities.Entity;
 import ecs.entities.Friendly.Hero;
 import ecs.graphic.Animation;
 import ecs.items.*;
-
 import java.util.Timer;
 import java.util.TimerTask;
 import starter.Game;
@@ -28,13 +26,14 @@ public class InvinciblePotion extends ItemData implements IOnCollect, IOnDrop {
         this.setOnCollect(this);
     }
 
-    public InvinciblePotion(ItemType itemType,
-                    Animation inventoryTexture,
-                    Animation worldTexture,
-                    String itemName,
-                    String description){
+    public InvinciblePotion(
+            ItemType itemType,
+            Animation inventoryTexture,
+            Animation worldTexture,
+            String itemName,
+            String description) {
         super(itemType, inventoryTexture, worldTexture, itemName, description);
-        //WorldItemBuilder.buildWorldItem(this);
+        // WorldItemBuilder.buildWorldItem(this);
         this.setOnCollect(this);
     }
 
@@ -82,7 +81,5 @@ public class InvinciblePotion extends ItemData implements IOnCollect, IOnDrop {
     }
 
     @Override
-    public void onDrop(Entity user, ItemData which, Point position) {
-
-    }
+    public void onDrop(Entity user, ItemData which, Point position) {}
 }

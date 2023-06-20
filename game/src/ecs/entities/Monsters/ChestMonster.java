@@ -14,12 +14,11 @@ import ecs.entities.Friendly.Hero;
 import ecs.graphic.Animation;
 import ecs.items.ItemData;
 import ecs.items.ItemDataGenerator;
-import starter.Game;
-import tools.Point;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import starter.Game;
+import tools.Point;
 
 public class ChestMonster extends Monster {
 
@@ -34,23 +33,22 @@ public class ChestMonster extends Monster {
 
     private transient Logger chestLogger = Logger.getLogger(getClass().getName());
 
-
     /**
      * Entity with Components
      *
      * @param lvlFactor - the factor by which damage and health is increased
-     * @param position  - position of the chest item
+     * @param position - position of the chest item
      */
-
     public ChestMonster(int lvlFactor, Point position) {
         super();
         chestLogger.info("Spawn ChestMonster");
         this.chest = chest;
         new PositionComponent(this, position);
-        new AIComponent(this,
-            new CollideAI(5f),
-            new PatrouilleWalk(2f, 4, 1000, PatrouilleWalk.MODE.BACK_AND_FORTH),
-            new RangeTransition(2));
+        new AIComponent(
+                this,
+                new CollideAI(5f),
+                new PatrouilleWalk(2f, 4, 1000, PatrouilleWalk.MODE.BACK_AND_FORTH),
+                new RangeTransition(2));
         setupVelocityComponent();
         setupAnimationComponent();
         setupHitboxComponent();
@@ -62,37 +60,26 @@ public class ChestMonster extends Monster {
         new HealthComponent(this, this.maxHealthpoint, this::onDeath, moveLeft, moveRight);
     }
 
-    /**
-     * Set up the Velocity Component
-     */
+    /** Set up the Velocity Component */
     private void setupVelocityComponent() {
         Animation moveRight = AnimationBuilder.buildAnimation(pathToRun);
         Animation moveLeft = AnimationBuilder.buildAnimation(pathToRun);
         new VelocityComponent(this, xSpeed, ySpeed, moveLeft, moveRight);
     }
 
-    /**
-     * Set up the Animation Component
-     */
+    /** Set up the Animation Component */
     private void setupAnimationComponent() {
         Animation idleRight = AnimationBuilder.buildAnimation(pathToIdle);
         Animation idleLeft = AnimationBuilder.buildAnimation(pathToIdle);
         new AnimationComponent(this, idleLeft, idleRight);
     }
 
-    /**
-     * Set up the Hitbox Component
-     */
+    /** Set up the Hitbox Component */
     private void setupHitboxComponent() {
-        new HitboxComponent(
-            this,
-            (you, other, direction) -> doDmg(other),
-            null);
+        new HitboxComponent(this, (you, other, direction) -> doDmg(other), null);
     }
 
-    /**
-     * Afflict damage
-     */
+    /** Afflict damage */
     private void doDmg(Entity other) {
         if (!(other instanceof Hero)) return;
         if (other.getComponent(HealthComponent.class).isPresent()) {
@@ -101,9 +88,7 @@ public class ChestMonster extends Monster {
         }
     }
 
-    /**
-     * Spawn originalChest when dead
-     */
+    /** Spawn originalChest when dead */
     @Override
     public void onDeath(Entity entity) {
         spawnOriginalChest(entity);
@@ -119,12 +104,12 @@ public class ChestMonster extends Monster {
     private static void spawnOriginalChest(Entity entity) {
         // getting the last position of the entity
         PositionComponent positionComponent =
-            (PositionComponent)
-                entity.getComponent(PositionComponent.class)
-                    .orElseThrow(
-                        () ->
-                            new IllegalStateException(
-                                "Entity does not have a PositionComponent"));
+                (PositionComponent)
+                        entity.getComponent(PositionComponent.class)
+                                .orElseThrow(
+                                        () ->
+                                                new IllegalStateException(
+                                                        "Entity does not have a PositionComponent"));
 
         // generating at least three random Items.
         List<ItemData> items = new ArrayList<>();

@@ -7,12 +7,11 @@ import ecs.damage.DamageType;
 import ecs.entities.Entity;
 import ecs.entities.Friendly.Hero;
 import ecs.graphic.Animation;
+import ecs.graphic.hud.Healthbar.EmptyHeart;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
-
-import ecs.graphic.hud.Healthbar.EmptyHeart;
 import logging.CustomLogLevel;
 import semanticAnalysis.types.DSLContextMember;
 import semanticAnalysis.types.DSLType;
@@ -81,14 +80,13 @@ public class HealthComponent extends Component {
      * @param damage Damage that should be inflicted.
      */
     public void receiveHit(Damage damage) {
-       // The health Points will be updated all the time.
-        if(entity instanceof Hero){
+        // The health Points will be updated all the time.
+        if (entity instanceof Hero) {
             Game.updateHeartBar(currentHealthpoints);
         }
         if (invincible) {
             healthLogger.info("Invincible is true");
             return;
-
         }
 
         damageToGet.add(damage);

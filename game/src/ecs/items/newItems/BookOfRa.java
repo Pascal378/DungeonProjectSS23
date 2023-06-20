@@ -7,7 +7,6 @@ import ecs.entities.Entity;
 import ecs.entities.Friendly.Hero;
 import ecs.graphic.Animation;
 import ecs.items.*;
-
 import java.util.Random;
 import starter.Game;
 import tools.Point;
@@ -17,11 +16,12 @@ public class BookOfRa extends ItemData implements IOnCollect, IOnDrop {
     InventoryComponent inv;
     Hero hero;
 
-    public BookOfRa(ItemType itemType,
-                    Animation inventoryTexture,
-                    Animation worldTexture,
-                    String itemName,
-                    String description){
+    public BookOfRa(
+            ItemType itemType,
+            Animation inventoryTexture,
+            Animation worldTexture,
+            String itemName,
+            String description) {
         super(itemType, inventoryTexture, worldTexture, itemName, description);
         hero = null;
         if (Game.getHero().isPresent()) {
@@ -55,7 +55,6 @@ public class BookOfRa extends ItemData implements IOnCollect, IOnDrop {
 
         this.setOnCollect(this);
     }
-
 
     /**
      * Adds item to the inventory or if available to a book bag
@@ -101,7 +100,5 @@ public class BookOfRa extends ItemData implements IOnCollect, IOnDrop {
     }
 
     @Override
-    public void onDrop(Entity user, ItemData which, Point position) {
-
-    }
+    public void onDrop(Entity user, ItemData which, Point position) {}
 }

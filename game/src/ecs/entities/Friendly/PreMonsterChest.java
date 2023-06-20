@@ -8,11 +8,10 @@ import ecs.entities.Entity;
 import ecs.entities.Monsters.ChestMonster;
 import ecs.graphic.Animation;
 import ecs.items.ItemData;
-import starter.Game;
-import tools.Point;
-
 import java.util.List;
 import java.util.logging.Logger;
+import starter.Game;
+import tools.Point;
 
 public class PreMonsterChest extends Chest {
 
@@ -34,10 +33,10 @@ public class PreMonsterChest extends Chest {
         itemData.forEach(ic::addItem);
         new InteractionComponent(this, defaultInteractionRadius, false, this::spawnChestMonster);
         AnimationComponent ac =
-            new AnimationComponent(
-                this,
-                new Animation(DEFAULT_CLOSED_ANIMATION_FRAMES, 50, false),
-                new Animation(DEFAULT_OPENING_ANIMATION_FRAMES, 50, false));
+                new AnimationComponent(
+                        this,
+                        new Animation(DEFAULT_CLOSED_ANIMATION_FRAMES, 50, false),
+                        new Animation(DEFAULT_OPENING_ANIMATION_FRAMES, 50, false));
     }
 
     /**
