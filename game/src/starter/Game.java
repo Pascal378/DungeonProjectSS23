@@ -338,6 +338,27 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
                                         () -> new MissingComponentException("PositionComponent"));
         pc.setPosition(currentLevel.getStartTile().getCoordinate().toPoint());
     }
+    /**
+     * the health points will be checked and then the appropriate image will be shown.
+     * @param amount The health points of the Hero.
+     */
+    public static void updateHeartBar(int amount){
+        if(amount < 51 && amount > 10 ){
+            fullHeart.hideMenu();
+            emptyHeart.hideMenu();
+            halfHeart.showMenu();
+        }
+        else if (amount <= 10){
+            fullHeart.hideMenu();
+            halfHeart.hideMenu();
+            emptyHeart.showMenu();
+
+        }else{
+            halfHeart.hideMenu();
+            emptyHeart.hideMenu();
+            fullHeart.showMenu();
+        }
+    }
 
     /** Toggle between pause and run */
     public static void togglePause() {
@@ -459,7 +480,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     public static void setCurrentLvl(int currentLvl) {
         Game.currentLvl = currentLvl;
     }
-
     private void createSystems() {
         new VelocitySystem();
         new DrawSystem(painter);

@@ -78,6 +78,7 @@ public class HealthComponent extends Component {
      * @param damage Damage that should be inflicted.
      */
     public void receiveHit(Damage damage) {
+       // The health Points will be updated all the time.
         if(entity instanceof Hero){
             Game.updateHeartBar(currentHealthpoints);
         }

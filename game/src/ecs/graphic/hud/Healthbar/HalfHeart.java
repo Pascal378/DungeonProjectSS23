@@ -6,7 +6,6 @@ import ecs.graphic.hud.ScreenImage;
 import starter.Game;
 import tools.Point;
 import java.util.logging.Logger;
-
 /**
  * The class is used to display a Half-Heart image graphically,
  * when the health points of the hero are less than 50% of his maximal health points.
@@ -22,7 +21,6 @@ public class HalfHeart <T extends Actor> extends ScreenController<T> {
     public HalfHeart(){
         this(new SpriteBatch());
     }
-
     /**
      * Creates a Screencontroller with a ScalingViewport which stretches the ScreenElements on
      * resize,and an image for the UI will be also created.

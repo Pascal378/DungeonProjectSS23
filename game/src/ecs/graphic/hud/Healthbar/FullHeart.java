@@ -12,7 +12,6 @@ import java.util.logging.Logger;
  * when the health points of the hero are greater than 50% of his maximal health points.
  * @param <T> a data typ
  */
-
 public class FullHeart <T extends Actor> extends ScreenController<T> {
     private final Logger logger = Logger.getLogger(getClass().getName());
     private static final String texturePath = "hud/ui_heart_full.png";

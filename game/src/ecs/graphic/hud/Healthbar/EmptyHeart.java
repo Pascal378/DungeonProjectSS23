@@ -6,7 +6,6 @@ import ecs.graphic.hud.ScreenImage;
 import starter.Game;
 import tools.Point;
 import java.util.logging.Logger;
-
 /**
  * The class is used to display an Empty-Heart image graphically,
  * when the health points of the hero are Nearly empty.
@@ -22,7 +21,6 @@ public class EmptyHeart <T extends Actor> extends ScreenController<T> {
     public EmptyHeart(){
         this(new SpriteBatch());
     }
-
     /**
      * Creates a Screencontroller with a ScalingViewport which stretches the ScreenElements on
      * resize,and an image for the UI will be also created.
