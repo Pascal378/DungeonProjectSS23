@@ -13,10 +13,11 @@ import java.util.logging.Logger;
  * @param <T> a data typ
  */
 public class HalfHeart <T extends Actor> extends ScreenController<T> {
-
-    private final Logger logger = Logger.getLogger(getClass().getName());
+    private static boolean control;
+    private static final Logger logger = Logger.getLogger(HalfHeart.class.getName());
     private static final String texturePath1 = "hud/ui_heart_half.png";
     private static final Point position = new Point(3f,429f);
+    private  static ScreenImage screenImage;
 
     /** Creates a new default Constructor with a new Spritebatch */
     public HalfHeart(){
@@ -30,10 +31,8 @@ public class HalfHeart <T extends Actor> extends ScreenController<T> {
      */
     public HalfHeart(SpriteBatch batch) {
         super(batch);
-        ScreenImage<T> screenImage = new ScreenImage<>(texturePath1,position);
-        if (Game.getPlayHero().getCurrentHealth()<= 50 && Game.getPlayHero().getCurrentHealth()> 10 ){
-            add((T) screenImage);
-            logger.info("the HalfHeart was displayed");
-        }
+        screenImage = new ScreenImage<>(texturePath1, position);
+        add((T) screenImage);
+        hideMenu();
     }
 }

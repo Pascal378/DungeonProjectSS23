@@ -1,8 +1,6 @@
 package starter;
-
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 import static logging.LoggerConfig.initBaseLogger;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -56,7 +54,6 @@ import tools.Point;
 
 /** The heart of the framework. From here all strings are pulled. */
 public class Game extends ScreenAdapter implements IOnLevelLoader {
-
     private LevelSize levelSize = LevelSize.SMALL;
 
     /**
@@ -111,7 +108,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
         DesktopLauncher.run(game = new Game());
     }
-
     /**
      * Main game loop. Redraws the dungeon and calls the own implementation (beginFrame, endFrame
      * and onLevelLoad).
@@ -150,12 +146,12 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(pauseMenu);
         gameOverHUD = new GameOverHUD<>();
         controller.add(gameOverHUD);
-        fullHeart = new FullHeart<>();
-        controller.add(fullHeart);
         halfHeart = new HalfHeart<>();
         controller.add(halfHeart);
         emptyHeart = new EmptyHeart<>();
         controller.add(emptyHeart);
+        fullHeart = new FullHeart<>();
+        controller.add(fullHeart);
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(levelSize);
         createSystems();
@@ -190,7 +186,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
             new Mine();
             new BearTrap();
         }
-
         spawnBoss();
         spawnItems();
 
@@ -443,9 +438,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     public void setSpriteBatch(SpriteBatch batch) {
         this.batch = batch;
     }
-
-    public static Hero getPlayHero() {return playHero; }
-
 
     private void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0, 1);

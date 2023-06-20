@@ -1,9 +1,11 @@
 package ecs.components;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Null;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
+import ecs.entities.Friendly.Hero;
 import ecs.graphic.Animation;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ import semanticAnalysis.types.DSLTypeMember;
 /** The HealthComponent makes an entity vulnerable and killable */
 @DSLType(name = "health_component")
 public class HealthComponent extends Component {
+    private static EmptyHeart<Actor> emptyHeart;
     private static final List<String> missingTexture = List.of("animation/missingTexture.png");
 
     private final List<Damage> damageToGet;
@@ -75,6 +78,9 @@ public class HealthComponent extends Component {
      * @param damage Damage that should be inflicted
      */
     public void receiveHit(Damage damage) {
+        if(entity instanceof Hero){
+            Game.updateHeartBar(currentHealthpoints);
+        }
         if (invincible) {
             healthLogger.info("Invincible is true");
             return;
@@ -142,6 +148,7 @@ public class HealthComponent extends Component {
      *
      * @param amount new amount of maximal health-points
      */
+    // sollte nicht fix sein ? oder unverändert
     public void setMaximalHealthpoints(int amount) {
         this.maximalHealthpoints = amount;
         currentHealthpoints = Math.min(currentHealthpoints, maximalHealthpoints);

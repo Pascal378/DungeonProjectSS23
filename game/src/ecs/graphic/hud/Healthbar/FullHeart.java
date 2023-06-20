@@ -25,16 +25,12 @@ public class FullHeart <T extends Actor> extends ScreenController<T> {
 
     /**
      * Creates a Screencontroller with a ScalingViewport which stretches the ScreenElements on
-     * resize
-     *
+     * resize,and an image for the UI will be also created.
      * @param batch the batch which should be used to draw with
      */
     public FullHeart(SpriteBatch batch) {
         super(batch);
-        ScreenImage<Actor> screenImage = new ScreenImage<Actor>(texturePath, position);
-        if (Game.getPlayHero().getCurrentHealth() > 51) {
-            logger.info("the FullHeart was displayed");
-            add((T) screenImage);
-        }
+        screenImage = new ScreenImage<>(texturePath, position);
+        add((T) screenImage);
     }
 }
