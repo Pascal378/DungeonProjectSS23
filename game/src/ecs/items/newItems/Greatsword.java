@@ -3,14 +3,13 @@ package ecs.items.newItems;
 import dslToGame.AnimationBuilder;
 import ecs.entities.Entity;
 import ecs.entities.Friendly.Hero;
-import ecs.items.IOnCollect;
-import ecs.items.ItemData;
-import ecs.items.ItemType;
-import ecs.items.WorldItemBuilder;
+import ecs.graphic.Animation;
+import ecs.items.*;
 import starter.Game;
+import tools.Point;
 
 /** The greatsword adds 20 damage to the hero if collected. */
-public class Greatsword extends ItemData implements IOnCollect {
+public class Greatsword extends ItemData implements IOnCollect, IOnDrop {
 
     private final int dmg = 20;
 
@@ -23,6 +22,16 @@ public class Greatsword extends ItemData implements IOnCollect {
                 "Increases the owners damage by 20");
 
         WorldItemBuilder.buildWorldItem(this);
+        this.setOnCollect(this);
+    }
+
+    public Greatsword(ItemType itemType,
+                            Animation inventoryTexture,
+                            Animation worldTexture,
+                            String itemName,
+                            String description){
+        super(itemType, inventoryTexture, worldTexture, itemName, description);
+        //WorldItemBuilder.buildWorldItem(this);
         this.setOnCollect(this);
     }
 
@@ -41,5 +50,10 @@ public class Greatsword extends ItemData implements IOnCollect {
             hero.setDmg(currentDmg + dmg);
             itemLogger.info("New damage: " + hero.getDmg());
         }
+    }
+
+    @Override
+    public void onDrop(Entity user, ItemData which, Point position) {
+
     }
 }

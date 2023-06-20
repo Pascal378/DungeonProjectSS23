@@ -8,7 +8,7 @@ public class IceballSkill extends DamageProjectileSkill {
     public IceballSkill(ITargetSelection targetSelection) {
         super(
                 "skills/iceball/iceBall_Down/",
-                0.1f,
+                0.7f,
                 new Damage(3, DamageType.ICE, null),
                 new Point(10, 10),
                 targetSelection,

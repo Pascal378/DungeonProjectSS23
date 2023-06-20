@@ -15,6 +15,7 @@ import ecs.components.PositionComponent;
 import ecs.entities.Entity;
 import ecs.entities.Friendly.FriendlyGhost;
 import ecs.entities.Friendly.Hero;
+import ecs.entities.Friendly.PreMonsterChest;
 import ecs.entities.Monsters.BossMonster;
 import ecs.entities.Monsters.Demon;
 import ecs.entities.Monsters.Imp;
@@ -43,6 +44,7 @@ import level.elements.tile.Tile;
 import level.generator.IGenerator;
 import level.generator.postGeneration.WallGenerator;
 import level.generator.randomwalk.RandomWalkGenerator;
+import level.tools.LevelElement;
 import level.tools.LevelSize;
 import tools.Constants;
 import tools.Point;
@@ -67,6 +69,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
      */
     protected SpriteBatch batch;
     private static Game game;
+
     /**
      * Contains all Controller of the Dungeon
      */
@@ -206,22 +209,15 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
         loadGhost();
+        spawnChest();
         spawnMonster();
         new Mine();
         new BearTrap();
 
         spawnBoss();
         spawnItems();
-
         currentLvl++;
         bookCheck();
-
-        new BookOfRa();
-        new BookOfRa();
-        new BookOfRa();
-        new BookOfRa();
-        new BookOfRa();
-
         Hero hero1 = (Hero) Game.hero;
         hero1.getXpCmp().addXP(hero1.getXpCmp().getXPToNextLevel());
         gameLogger.info("Current Level: " + currentLvl);
@@ -280,6 +276,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
             monster++;
         }
         gameLogger.info("Amount of monsters spawned in this level: " + monster);
+    }
+
+    private void spawnChest() {
+        List<ItemData> items = new ArrayList<>();
+        new PreMonsterChest(
+            items,
+            Game.currentLevel.getRandomTile(LevelElement.FLOOR).getCoordinate().toPoint());
     }
 
     private void spawnBoss() {
@@ -370,6 +373,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     }
 
     /**
+     * <<<<<<< HEAD
      * the health points will be checked and then the appropriate image will be shown.
      *
      * @param amount The health points of the Hero.
@@ -392,6 +396,8 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     }
 
     /**
+     * =======
+     * >>>>>>> Feature/ChestMonster
      * Toggle between pause and run
      */
     public static void togglePause() {
