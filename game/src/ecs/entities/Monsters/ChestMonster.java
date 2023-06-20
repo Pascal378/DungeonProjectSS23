@@ -15,6 +15,7 @@ import ecs.graphic.Animation;
 import ecs.items.ItemData;
 import ecs.items.ItemDataGenerator;
 import starter.Game;
+import tools.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,14 +39,14 @@ public class ChestMonster extends Monster {
      * Entity with Components
      *
      * @param lvlFactor - the factor by which damage and health is increased
-     * @param chest - to connect the ChestMonster with the PreMonsterChest
+     * @param position  - position of the chest item
      */
 
-    public ChestMonster(int lvlFactor, Chest chest){
+    public ChestMonster(int lvlFactor, Point position) {
         super();
         chestLogger.info("spawn ChestMonster/");
         this.chest = chest;
-        new PositionComponent(this);
+        new PositionComponent(this, position);
         new AIComponent(this,
             new CollideAI(5f),
             new PatrouilleWalk(2f, 4, 1000, PatrouilleWalk.MODE.BACK_AND_FORTH),
