@@ -7,6 +7,7 @@ import ecs.items.ItemData;
 import ecs.items.ItemDataGenerator;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 import java.util.stream.IntStream;
 import level.tools.LevelElement;
 import starter.Game;
@@ -14,6 +15,7 @@ import tools.Point;
 
 public class Chest extends Entity {
 
+    private transient Logger chest = Logger.getLogger(getClass().getName());
     public static final float defaultInteractionRadius = 1f;
     public static final List<String> DEFAULT_CLOSED_ANIMATION_FRAMES =
             List.of("objects/treasurechest/chest_full_open_anim_f0.png");
@@ -23,6 +25,10 @@ public class Chest extends Entity {
                     "objects/treasurechest/chest_full_open_anim_f1.png",
                     "objects/treasurechest/chest_full_open_anim_f2.png",
                     "objects/treasurechest/chest_empty_open_anim_f2.png");
+
+    public Chest() {
+        chest.info("spawn Chest");
+    }
 
     /**
      * small Generator which uses the Item#ITEM_REGISTER
@@ -49,6 +55,7 @@ public class Chest extends Entity {
      * @param position the position where the chest is placed
      */
     public Chest(List<ItemData> itemData, Point position) {
+        chest.info("spawn Chest");
         new PositionComponent(this, position);
         InventoryComponent ic = new InventoryComponent(this, itemData.size());
         itemData.forEach(ic::addItem);

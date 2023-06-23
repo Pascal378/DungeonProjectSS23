@@ -1,10 +1,13 @@
 package ecs.components;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Null;
 import ecs.damage.Damage;
 import ecs.damage.DamageType;
 import ecs.entities.Entity;
+import ecs.entities.Friendly.Hero;
 import ecs.graphic.Animation;
+import ecs.graphic.hud.Healthbar.EmptyHeart;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,10 +16,12 @@ import logging.CustomLogLevel;
 import semanticAnalysis.types.DSLContextMember;
 import semanticAnalysis.types.DSLType;
 import semanticAnalysis.types.DSLTypeMember;
+import starter.Game;
 
 /** The HealthComponent makes an entity vulnerable and killable */
 @DSLType(name = "health_component")
 public class HealthComponent extends Component {
+    private static EmptyHeart<Actor> emptyHeart;
     private static final List<String> missingTexture = List.of("animation/missingTexture.png");
 
     private final List<Damage> damageToGet;
@@ -70,11 +75,15 @@ public class HealthComponent extends Component {
     }
 
     /**
-     * Adds damage, which is accounted for by the system
+     * Adds damage, which is accounted for by the system.
      *
-     * @param damage Damage that should be inflicted
+     * @param damage Damage that should be inflicted.
      */
     public void receiveHit(Damage damage) {
+        // The health Points will be updated all the time.
+        if (entity instanceof Hero) {
+            Game.updateHeartBar(currentHealthpoints);
+        }
         if (invincible) {
             healthLogger.info("Invincible is true");
             return;
@@ -142,6 +151,7 @@ public class HealthComponent extends Component {
      *
      * @param amount new amount of maximal health-points
      */
+    // sollte nicht fix sein ? oder unverändert
     public void setMaximalHealthpoints(int amount) {
         this.maximalHealthpoints = amount;
         currentHealthpoints = Math.min(currentHealthpoints, maximalHealthpoints);

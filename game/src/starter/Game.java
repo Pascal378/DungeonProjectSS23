@@ -18,6 +18,7 @@ import ecs.components.PositionComponent;
 import ecs.entities.Entity;
 import ecs.entities.Friendly.FriendlyGhost;
 import ecs.entities.Friendly.Hero;
+import ecs.entities.Friendly.PreMonsterChest;
 import ecs.entities.Monsters.BossMonster;
 import ecs.entities.Monsters.Demon;
 import ecs.entities.Monsters.Imp;
@@ -27,6 +28,9 @@ import ecs.entities.Traps.Mine;
 import ecs.graphic.DungeonCamera;
 import ecs.graphic.Painter;
 import ecs.graphic.hud.GameOverHUD;
+import ecs.graphic.hud.Healthbar.EmptyHeart;
+import ecs.graphic.hud.Healthbar.FullHeart;
+import ecs.graphic.hud.Healthbar.HalfHeart;
 import ecs.graphic.hud.InventoryHUD;
 import ecs.graphic.hud.PauseMenu;
 import ecs.items.ItemData;
@@ -47,13 +51,13 @@ import level.elements.tile.Tile;
 import level.generator.IGenerator;
 import level.generator.postGeneration.WallGenerator;
 import level.generator.randomwalk.RandomWalkGenerator;
+import level.tools.LevelElement;
 import level.tools.LevelSize;
 import tools.Constants;
 import tools.Point;
 
 /** The heart of the framework. From here all strings are pulled. */
 public class Game extends ScreenAdapter implements IOnLevelLoader {
-
     private LevelSize levelSize = LevelSize.SMALL;
 
     /**
@@ -92,13 +96,15 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static PauseMenu<Actor> pauseMenu;
     private static InventoryHUD<Actor> inventoryHUD;
     private static GameOverHUD<Actor> gameOverHUD;
+    private static FullHeart<Actor> fullHeart;
+    private static HalfHeart<Actor> halfHeart;
+    private static EmptyHeart<Actor> emptyHeart;
     private static boolean inventoryOpen = false;
     private static Entity hero;
     private static Hero playHero;
     private Logger gameLogger;
     private static int currentLvl = 0;
     private FriendlyGhost friendlyGhost;
-
     private SaveGame saveGame;
     private boolean onceLoaded = false;
 
@@ -148,11 +154,16 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(inventoryHUD);
         pauseMenu = new PauseMenu<>();
         controller.add(pauseMenu);
+        emptyHeart = new EmptyHeart<>();
+        controller.add(emptyHeart);
+        halfHeart = new HalfHeart<>();
+        controller.add(halfHeart);
+        fullHeart = new FullHeart<>();
+        controller.add(fullHeart);
         gameOverHUD = new GameOverHUD<>();
         controller.add(gameOverHUD);
         levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
         levelAPI.loadLevel(levelSize);
-
         createSystems();
     }
 
@@ -180,24 +191,15 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         entities.clear();
         getHero().ifPresent(this::placeOnLevelStart);
         loadGhost();
-        if (!checkSave()) {
-            spawnMonster();
-            new Mine();
-            new BearTrap();
-        }
+        spawnChest();
+        spawnMonster();
+        new Mine();
+        new BearTrap();
 
         spawnBoss();
         spawnItems();
-
         currentLvl++;
         bookCheck();
-
-        new BookOfRa();
-        new BookOfRa();
-        new BookOfRa();
-        new BookOfRa();
-        new BookOfRa();
-
         Hero hero1 = (Hero) Game.hero;
         hero1.getXpCmp().addXP(hero1.getXpCmp().getXPToNextLevel());
         gameLogger.info("Current Level: " + currentLvl);
@@ -250,6 +252,13 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
             monster++;
         }
         gameLogger.info("Amount of monsters spawned in this level: " + monster);
+    }
+
+    private void spawnChest() {
+        List<ItemData> items = new ArrayList<>();
+        new PreMonsterChest(
+                items,
+                Game.currentLevel.getRandomTile(LevelElement.FLOOR).getCoordinate().toPoint());
     }
 
     private void spawnBoss() {
@@ -339,7 +348,29 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         pc.setPosition(currentLevel.getStartTile().getCoordinate().toPoint());
     }
 
-    /** Toggle between pause and run */
+    /**
+     * <<<<<<< HEAD the health points will be checked and then the appropriate image will be shown.
+     *
+     * @param amount The health points of the Hero.
+     */
+    public static void updateHeartBar(int amount) {
+        if (amount < 51 && amount > 10) {
+            fullHeart.hideMenu();
+            emptyHeart.hideMenu();
+            halfHeart.showMenu();
+        } else if (amount <= 10) {
+            fullHeart.hideMenu();
+            halfHeart.hideMenu();
+            emptyHeart.showMenu();
+
+        } else {
+            halfHeart.hideMenu();
+            emptyHeart.hideMenu();
+            fullHeart.showMenu();
+        }
+    }
+
+    /** ======= >>>>>>> Feature/ChestMonster Toggle between pause and run */
     public static void togglePause() {
         paused = !paused;
         if (systems != null) {
