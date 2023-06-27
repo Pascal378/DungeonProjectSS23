@@ -33,6 +33,7 @@ import ecs.graphic.hud.Healthbar.FullHeart;
 import ecs.graphic.hud.Healthbar.HalfHeart;
 import ecs.graphic.hud.InventoryHUD;
 import ecs.graphic.hud.PauseMenu;
+import ecs.graphic.hud.StartMenu;
 import ecs.items.ItemData;
 import ecs.items.ItemType;
 import ecs.items.newItems.Bag;
@@ -93,6 +94,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     public static SystemController systems;
 
     public static ILevel currentLevel;
+    private static StartMenu<Actor> startMenu;
     private static PauseMenu<Actor> pauseMenu;
     private static InventoryHUD<Actor> inventoryHUD;
     private static GameOverHUD<Actor> gameOverHUD;
@@ -104,8 +106,11 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static Hero playHero;
     private Logger gameLogger;
     private static int currentLvl = 0;
+    private static int highestScore;
     private FriendlyGhost friendlyGhost;
     private SaveGame saveGame;
+    private Serialization serialization;
+
     private boolean onceLoaded = false;
 
     public static void main(String[] args) {
@@ -152,6 +157,12 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         controller.add(systems);
         inventoryHUD = new InventoryHUD<>();
         controller.add(inventoryHUD);
+
+
+        startMenu = new StartMenu<>();
+        controller.add(startMenu);
+
+
         pauseMenu = new PauseMenu<>();
         controller.add(pauseMenu);
         emptyHeart = new EmptyHeart<>();
@@ -195,15 +206,31 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         spawnMonster();
         new Mine();
         new BearTrap();
-
         spawnBoss();
         spawnItems();
+        cheakHighScore();
         currentLvl++;
         bookCheck();
         Hero hero1 = (Hero) Game.hero;
         hero1.getXpCmp().addXP(hero1.getXpCmp().getXPToNextLevel());
         gameLogger.info("Current Level: " + currentLvl);
         saveGame.writeSave();
+    }
+    private void cheakHighScore(){
+        readFromFile();
+        if (currentLvl > highestScore){
+        writeInFile(currentLvl);
+        }
+    }
+    private static void readFromFile(){
+        if (new File("serialGame.ser").exists()){
+            Serialization serializableGame1 = Serialization.readObject("serialGame.ser");
+            highestScore = serializableGame1.getHighestScore();
+        }
+    }
+    private static void writeInFile(int highestScore1){
+        Serialization serializableGame= new Serialization(highestScore1);
+        Serialization.writeObject(serializableGame,"serialGame.ser");
     }
 
     /** Spawn ghost, there is a 10% chance it doesn't spawn */
@@ -482,6 +509,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
         // See also:
         // https://stackoverflow.com/questions/52011592/libgdx-set-ortho-camera
+
     }
 
     public static int getCurrentLvl() {
@@ -491,7 +519,12 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     public static void setCurrentLvl(int currentLvl) {
         Game.currentLvl = currentLvl;
     }
-
+    public static int getHighestScore() {
+        return highestScore;
+    }
+    public static void setHighestScore(int highestScore) {
+        Game.highestScore = highestScore;
+    }
     private void createSystems() {
         new VelocitySystem();
         new DrawSystem(painter);

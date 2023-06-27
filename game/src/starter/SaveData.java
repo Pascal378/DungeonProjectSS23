@@ -14,6 +14,7 @@ public class SaveData implements Serializable {
 
     private int currentHp;
 
+
     /**
      * @param entities - Entities on LevelLoad
      * @param lvl - Current levelDepth
@@ -21,14 +22,14 @@ public class SaveData implements Serializable {
      * @param maxHp - Current maximum hp of the hero
      * @param currentHp - Current hp of the hero
      */
-    public SaveData(Set<Entity> entities, int lvl, long heroLvl, int maxHp, int currentHp) {
+    public SaveData(Set<Entity> entities, int lvl, long heroLvl, int maxHp, int currentHp){
         this.entities = entities;
         this.lvl = lvl;
         this.heroLvl = heroLvl;
         this.maxHp = maxHp;
         this.currentHp = currentHp;
-    }
 
+    }
     public SaveData(int lvl) {
         this.lvl = lvl;
     }
@@ -72,4 +73,6 @@ public class SaveData implements Serializable {
     public void setCurrentHp(int currentHp) {
         this.currentHp = currentHp;
     }
+
+
 }
