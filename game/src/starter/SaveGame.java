@@ -31,8 +31,7 @@ public class SaveGame {
                         hero.getLevel(),
                         hero.getCurrentHealth(),
                         hero.getMaxHealth()
-                    // ,  Game.getHighestScore()
-                );
+                        );
 
         saveLogger.info("SaveGame is active");
     }
@@ -46,8 +45,7 @@ public class SaveGame {
                         hero.getLevel(),
                         hero.getCurrentHealth(),
                         hero.getMaxHealth()
-                    //, Game.getHighestScore()
-                );
+                        );
     }
 
     /** Write the SaveFile */
