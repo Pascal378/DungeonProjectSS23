@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 /** Saves and reads entities to/from file. */
 public class SaveGame {
     private SaveData data;
-
     private transient Hero hero;
 
     private final Logger saveLogger = Logger.getLogger(SaveGame.class.getName());
@@ -33,6 +32,7 @@ public class SaveGame {
                         hero.getLevel(),
                         hero.getCurrentHealth(),
                         hero.getMaxHealth());
+
         saveLogger.info("SaveGame is active");
     }
 
@@ -51,11 +51,13 @@ public class SaveGame {
     public void writeSave() {
         updateData();
         try {
+
             FileOutputStream fos = new FileOutputStream("SaveFile.ser");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(this.data);
             saveLogger.info("Wrote data to SaveFile");
             oos.close();
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -97,7 +99,6 @@ public class SaveGame {
             if (entity instanceof BearTrap) new BearTrap();
             if (entity instanceof Mine) new Mine();
         }
-
         hero.setLevel(toRead.getHeroLvl());
         hero.setMaxHealth(toRead.getMaxHp());
         hero.setCurrentHealth(toRead.getCurrentHp());

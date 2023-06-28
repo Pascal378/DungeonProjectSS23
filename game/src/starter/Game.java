@@ -33,6 +33,7 @@ import ecs.graphic.hud.Healthbar.FullHeart;
 import ecs.graphic.hud.Healthbar.HalfHeart;
 import ecs.graphic.hud.InventoryHUD;
 import ecs.graphic.hud.PauseMenu;
+import ecs.graphic.hud.StartMenu;
 import ecs.items.ItemData;
 import ecs.items.ItemType;
 import ecs.items.newItems.Bag;
@@ -80,6 +81,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     protected IGenerator generator;
 
     private boolean doSetup = true;
+    private static boolean gameStart = false;
     private static boolean paused = false;
 
     /** All entities that are currently active in the dungeon */
@@ -93,6 +95,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     public static SystemController systems;
 
     public static ILevel currentLevel;
+    private static StartMenu<Actor> startMenu;
     private static PauseMenu<Actor> pauseMenu;
     private static InventoryHUD<Actor> inventoryHUD;
     private static GameOverHUD<Actor> gameOverHUD;
@@ -100,10 +103,12 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static HalfHeart<Actor> halfHeart;
     private static EmptyHeart<Actor> emptyHeart;
     private static boolean inventoryOpen = false;
+    private static boolean savedCheak = false;
     private static Entity hero;
     private static Hero playHero;
     private Logger gameLogger;
     private static int currentLvl = 0;
+    private static int highestScore;
     private FriendlyGhost friendlyGhost;
     private SaveGame saveGame;
     private boolean onceLoaded = false;
@@ -126,45 +131,57 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
      */
     @Override
     public void render(float delta) {
-        if (doSetup) setup();
-        batch.setProjectionMatrix(camera.combined);
-        frame();
-        clearScreen();
-        levelAPI.update();
-        controller.forEach(AbstractController::update);
-        camera.update();
+        if (!gameStart) setup();
+        else {
+            batch.setProjectionMatrix(camera.combined);
+            frame();
+            clearScreen();
+            levelAPI.update();
+            controller.forEach(AbstractController::update);
+            camera.update();
+        }
     }
 
     /** Called once at the beginning of the game. */
     protected void setup() {
-        playHero = new Hero();
-        hero = playHero;
-        this.saveGame = new SaveGame();
-        doSetup = false;
-        controller = new ArrayList<>();
-        setupCameras();
-        painter = new Painter(batch, camera);
-        generator = new RandomWalkGenerator();
-        levelAPI = new LevelAPI(batch, painter, generator, this);
-        initBaseLogger();
-        gameLogger = Logger.getLogger(this.getClass().getName());
-        systems = new SystemController();
-        controller.add(systems);
-        inventoryHUD = new InventoryHUD<>();
-        controller.add(inventoryHUD);
-        pauseMenu = new PauseMenu<>();
-        controller.add(pauseMenu);
-        emptyHeart = new EmptyHeart<>();
-        controller.add(emptyHeart);
-        halfHeart = new HalfHeart<>();
-        controller.add(halfHeart);
-        fullHeart = new FullHeart<>();
-        controller.add(fullHeart);
-        gameOverHUD = new GameOverHUD<>();
-        controller.add(gameOverHUD);
-        levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
-        levelAPI.loadLevel(levelSize);
-        createSystems();
+        // initialize game requirements
+        if (doSetup) {
+            doSetup = false;
+            controller = new ArrayList<>();
+            readFromFile();
+            hero = playHero = new Hero();
+            setupCameras();
+            painter = new Painter(batch, camera);
+            generator = new RandomWalkGenerator();
+            levelAPI = new LevelAPI(batch, painter, generator, this);
+            initBaseLogger();
+            systems = new SystemController();
+            controller.add(systems);
+            gameLogger = Logger.getLogger(this.getClass().getName());
+            startMenu = new StartMenu<>();
+            controller.add(startMenu);
+        }
+        startMenu.update();
+        if (gameStart) {
+            this.saveGame = new SaveGame();
+            inventoryHUD = new InventoryHUD<>();
+            controller.add(inventoryHUD);
+            pauseMenu = new PauseMenu<>();
+            controller.add(pauseMenu);
+            emptyHeart = new EmptyHeart<>();
+            controller.add(emptyHeart);
+            halfHeart = new HalfHeart<>();
+            controller.add(halfHeart);
+            fullHeart = new FullHeart<>();
+            controller.add(fullHeart);
+            gameOverHUD = new GameOverHUD<>();
+            controller.add(gameOverHUD);
+            levelAPI =
+                    new LevelAPI(
+                            batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
+            levelAPI.loadLevel(levelSize);
+            createSystems();
+        }
     }
 
     /** Called at the beginning of each frame. Before the controllers call <code>update</code>. */
@@ -195,15 +212,33 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         spawnMonster();
         new Mine();
         new BearTrap();
-
         spawnBoss();
         spawnItems();
+        cheakHighScore();
         currentLvl++;
         bookCheck();
         Hero hero1 = (Hero) Game.hero;
         hero1.getXpCmp().addXP(hero1.getXpCmp().getXPToNextLevel());
         gameLogger.info("Current Level: " + currentLvl);
         saveGame.writeSave();
+    }
+
+    private void cheakHighScore() {
+        if (currentLvl > highestScore) {
+            writeInFile(currentLvl);
+        }
+    }
+
+    private static void readFromFile() {
+        if (new File("serialGame.ser").exists()) {
+            Serialization serializableGame1 = Serialization.readObject("serialGame.ser");
+            highestScore = serializableGame1.getHighestScore();
+        }
+    }
+
+    private static void writeInFile(int highestScore1) {
+        Serialization serializableGame = new Serialization(highestScore1);
+        Serialization.writeObject(serializableGame, "serialGame.ser");
     }
 
     /** Spawn ghost, there is a 10% chance it doesn't spawn */
@@ -400,6 +435,14 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         return gameOverHUD;
     }
 
+    public static StartMenu<Actor> getStartMenu() {
+        return startMenu;
+    }
+
+    public static void setStartMenu(StartMenu<Actor> startMenu) {
+        Game.startMenu = startMenu;
+    }
+
     /**
      * Restarts the game
      *
@@ -482,6 +525,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
 
         // See also:
         // https://stackoverflow.com/questions/52011592/libgdx-set-ortho-camera
+
     }
 
     public static int getCurrentLvl() {
@@ -491,6 +535,25 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     public static void setCurrentLvl(int currentLvl) {
         Game.currentLvl = currentLvl;
     }
+
+    public static int getHighestScore() {
+        return highestScore;
+    }
+
+    private void cheakSaved() {
+        if (savedCheak) {}
+    }
+
+    /**
+     * Getter
+     *
+     * @param highestScore the Value of the Highest Level have been achieved
+     */
+    public static void setHighestScore(int highestScore) {
+        Game.highestScore = highestScore;
+    }
+
+    public static void setSavedCheak(boolean savedCheak) {}
 
     private void createSystems() {
         new VelocitySystem();
@@ -503,5 +566,9 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         new SkillSystem();
         new ProjectileSystem();
         new QuestSystem();
+    }
+
+    public static void setGameStart(boolean status) {
+        gameStart = status;
     }
 }
