@@ -1,6 +1,8 @@
 package starter;
+
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 import static logging.LoggerConfig.initBaseLogger;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -77,6 +79,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     protected LevelAPI levelAPI;
     /** Generates the level */
     protected IGenerator generator;
+
     private boolean doSetup = true;
     private static boolean gameStart = false;
     private static boolean paused = false;
@@ -100,6 +103,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
     private static HalfHeart<Actor> halfHeart;
     private static EmptyHeart<Actor> emptyHeart;
     private static boolean inventoryOpen = false;
+    private static boolean savedCheak = false;
     private static Entity hero;
     private static Hero playHero;
     private Logger gameLogger;
@@ -146,7 +150,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
             controller = new ArrayList<>();
             readFromFile();
             hero = playHero = new Hero();
-            this.saveGame = new SaveGame();
             setupCameras();
             painter = new Painter(batch, camera);
             generator = new RandomWalkGenerator();
@@ -160,6 +163,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
         startMenu.update();
         if (gameStart) {
+            this.saveGame = new SaveGame();
             inventoryHUD = new InventoryHUD<>();
             controller.add(inventoryHUD);
             pauseMenu = new PauseMenu<>();
@@ -172,11 +176,12 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
             controller.add(fullHeart);
             gameOverHUD = new GameOverHUD<>();
             controller.add(gameOverHUD);
-            levelAPI = new LevelAPI(batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
+            levelAPI =
+                    new LevelAPI(
+                            batch, painter, new WallGenerator(new RandomWalkGenerator()), this);
             levelAPI.loadLevel(levelSize);
             createSystems();
         }
-
     }
 
     /** Called at the beginning of each frame. Before the controllers call <code>update</code>. */
@@ -223,6 +228,7 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
             writeInFile(currentLvl);
         }
     }
+
     private static void readFromFile() {
         if (new File("serialGame.ser").exists()) {
             Serialization serializableGame1 = Serialization.readObject("serialGame.ser");
@@ -399,8 +405,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         }
     }
 
-
-
     /** ======= >>>>>>> Feature/ChestMonster Toggle between pause and run */
     public static void togglePause() {
         paused = !paused;
@@ -411,7 +415,6 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
             if (paused) pauseMenu.showMenu();
             else pauseMenu.hideMenu();
         }
-
     }
 
     /** Open Inventory */
@@ -537,14 +540,20 @@ public class Game extends ScreenAdapter implements IOnLevelLoader {
         return highestScore;
     }
 
+    private void cheakSaved() {
+        if (savedCheak) {}
+    }
+
     /**
      * Getter
+     *
      * @param highestScore the Value of the Highest Level have been achieved
      */
-
     public static void setHighestScore(int highestScore) {
         Game.highestScore = highestScore;
     }
+
+    public static void setSavedCheak(boolean savedCheak) {}
 
     private void createSystems() {
         new VelocitySystem();

@@ -9,7 +9,6 @@ public class SaveData implements Serializable {
     private Set<Entity> entities;
     private int lvl;
     private long heroLvl;
-
     private int maxHp;
     private int currentHp;
 

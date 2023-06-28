@@ -1,4 +1,5 @@
 package starter;
+
 import ecs.entities.Entity;
 import ecs.entities.Friendly.Hero;
 import ecs.entities.Monsters.BossMonster;
@@ -30,8 +31,7 @@ public class SaveGame {
                         Game.getCurrentLvl(),
                         hero.getLevel(),
                         hero.getCurrentHealth(),
-                        hero.getMaxHealth()
-                        );
+                        hero.getMaxHealth());
 
         saveLogger.info("SaveGame is active");
     }
@@ -44,8 +44,7 @@ public class SaveGame {
                         Game.getCurrentLvl(),
                         hero.getLevel(),
                         hero.getCurrentHealth(),
-                        hero.getMaxHealth()
-                        );
+                        hero.getMaxHealth());
     }
 
     /** Write the SaveFile */
